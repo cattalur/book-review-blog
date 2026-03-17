@@ -1,619 +1,969 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Between the Pages</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Between the Pages</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF8F0;--dark:#2C1A0E;--white:#FFFFFF;
+  --lime:#E8471D;--pink:#C0340F;--sky:#D4884A;
+  --orange:#E8471D;--purple:#8B4513;--yellow:#F5A623;--green:#C8A882;
+  --ink:#2C1A0E;--ink2:#7A5440;--ink3:#B8957A;
+  --border-shadow:rgba(44,26,14,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);font-family:'Space Grotesk',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden;}
 
-    :root {
-      --cream: #fdf8f2;
-      --warm: #f5ede0;
-      --accent: #b5664a;
-      --accent-light: #e8c9b8;
-      --text: #2d2018;
-      --muted: #8a7060;
-      --border: #ddd0c4;
-      --star: #e0903a;
-    }
+/* ── GATE ── */
+#gate{position:fixed;inset:0;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2000;padding:24px;}
+.gate-icon{font-size:3rem;margin-bottom:12px;}
+.gate-title{font-family:'Fraunces',serif;font-size:clamp(2.4rem,7vw,3.8rem);font-weight:900;color:#F5A623;letter-spacing:-2px;text-align:center;margin-bottom:4px;line-height:1;}
+.gate-title em{font-style:italic;color:#E8471D;}
+.gate-sub{font-size:.84rem;color:rgba(255,255,255,.5);margin-bottom:32px;text-align:center;}
+.gate-box{background:var(--cream);border:3px solid #F5A623;border-radius:20px;padding:32px;width:100%;max-width:360px;box-shadow:6px 6px 0 #F5A623;}
+.gate-label{display:block;font-size:.66rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink2);margin-bottom:8px;}
+.gate-input{width:100%;padding:12px 16px;background:var(--white);border:2.5px solid var(--dark);border-radius:11px;font-family:'Space Grotesk',sans-serif;font-size:1rem;color:var(--ink);outline:none;transition:box-shadow .2s;}
+.gate-input:focus{box-shadow:3px 3px 0 var(--orange);}
+.gate-btn{width:100%;margin-top:12px;padding:13px;background:var(--orange);color:white;border:2.5px solid var(--dark);border-radius:11px;font-family:'Space Grotesk',sans-serif;font-size:.94rem;font-weight:700;cursor:pointer;transition:all .15s;box-shadow:3px 3px 0 var(--dark);}
+.gate-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark);}
+.gate-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--dark);}
+.gate-err{color:#E8471D;font-size:.82rem;text-align:center;margin-top:10px;display:none;font-weight:700;}
 
-    body {
-      font-family: 'Georgia', serif;
-      background: var(--cream);
-      color: var(--text);
-      min-height: 100vh;
-    }
+/* ── SHELL ── */
+#shell{display:none;}
 
-    /* ── Header ── */
-    header {
-      background: var(--accent);
-      color: #fff;
-      text-align: center;
-      padding: 2.5rem 1rem 2rem;
-    }
-    header .tagline {
-      font-size: 0.85rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-bottom: 0.5rem;
-      font-family: sans-serif;
-    }
-    header h1 {
-      font-size: 2.8rem;
-      font-weight: normal;
-      letter-spacing: 0.03em;
-    }
-    header p.subtitle {
-      margin-top: 0.5rem;
-      font-style: italic;
-      opacity: 0.9;
-      font-size: 1rem;
-    }
+/* ── HEADER ── */
+.hdr{background:var(--dark);padding:0 32px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--orange);}
+.hdr-logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:900;color:#F5A623;letter-spacing:-1px;cursor:pointer;}
+.hdr-logo em{font-style:normal;color:#E8471D;}
+.hdr-right{display:flex;align-items:center;gap:8px;}
+.badge-editor{background:#F5A623;color:var(--dark);font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:100px;border:2px solid rgba(255,255,255,.3);box-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.btn-ghost{background:transparent;border:2px solid rgba(255,255,255,.25);border-radius:9px;padding:5px 13px;font-family:'Space Grotesk',sans-serif;font-size:.79rem;font-weight:600;color:rgba(255,255,255,.65);cursor:pointer;transition:all .15s;}
+.btn-ghost:hover{border-color:var(--orange);color:#F5A623;}
+.btn-accent{background:var(--orange);border:2px solid rgba(255,255,255,.3);border-radius:9px;padding:6px 15px;font-family:'Space Grotesk',sans-serif;font-size:.79rem;font-weight:700;color:white;cursor:pointer;transition:all .15s;box-shadow:2px 2px 0 rgba(0,0,0,.2);}
+.btn-accent:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 rgba(0,0,0,.25);}
 
-    nav {
-      background: #2d2018;
-      display: flex;
-      justify-content: center;
-      gap: 0;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: #e8d8cc;
-      font-family: sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    nav button:hover, nav button.active {
-      background: var(--accent);
-      color: #fff;
-    }
+/* ── PAGES ── */
+.page{display:none;}.page.on{display:block;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
 
-    /* ── Layout ── */
-    main {
-      max-width: 820px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
+/* ── HOME HERO ── */
+.hero{background:var(--dark);padding:28px 24px 0;display:grid;grid-template-columns:1fr 180px;gap:30px;align-items:end;max-width:1080px;margin:0 auto;}
+.hero-tag{display:inline-block;background:var(--orange);color:white;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 13px;border-radius:100px;margin-bottom:12px;}
+.hero-h1{font-family:'Fraunces',serif;font-size:clamp(1.9rem,5vw,3.4rem);font-weight:900;color:#FFF8F0;line-height:1;letter-spacing:-2px;cursor:pointer;transition:color .2s;margin-bottom:8px;}
+.hero-h1 em{font-style:italic;color:#F5A623;}
+.hero-h1:hover em{color:#E8471D;}
+.hero-byline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.hero-stars{letter-spacing:2px;}
+.pill{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);color:#FFF8F0;padding:4px 12px;border-radius:100px;font-size:.76rem;font-weight:500;}
+.pill.green{background:var(--orange);color:white;border-color:var(--orange);}
+.hero-excerpt{font-size:.88rem;line-height:1.68;color:rgba(255,255,255,.55);max-width:420px;padding-bottom:24px;}
+.hero-readmore{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:var(--orange);color:white;font-size:.78rem;font-weight:700;padding:7px 16px;border-radius:100px;cursor:pointer;border:2px solid rgba(255,255,255,.25);box-shadow:3px 3px 0 rgba(0,0,0,.25);transition:all .15s;}
+.hero-readmore:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 rgba(0,0,0,.3);}
+.hero-cover{aspect-ratio:2/3;border-radius:11px;overflow:hidden;background:#3D1F0A;border:3px dashed rgba(245,166,35,.3);cursor:pointer;transition:border-color .2s;display:flex;align-items:flex-end;}
+.hero-cover:hover{border-color:#F5A623;}
+.hero-cover img{width:100%;height:100%;object-fit:cover;display:none;border-radius:8px;}
+.cph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:rgba(255,255,255,.25);font-size:.72rem;}
+.cph-icon{font-size:2rem;}
 
-    section { display: none; }
-    section.active { display: block; }
+/* ── EDITOR CONTROLS ── */
+.ectrls{display:none;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.is-editor .ectrls{display:flex;}
+.ecbtn{font-size:.67rem;font-weight:700;padding:3px 9px;border-radius:8px;border:2px solid var(--dark);background:var(--white);cursor:pointer;color:var(--ink);transition:all .15s;box-shadow:2px 2px 0 var(--dark);}
+.ecbtn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--dark);}
+.ecbtn.del{color:#C0340F;border-color:#C0340F;box-shadow:2px 2px 0 #C0340F;}
+.ecbtn.del:hover{box-shadow:3px 3px 0 #C0340F;}
 
-    /* ── Review Cards ── */
-    .reviews-grid {
-      display: grid;
-      gap: 1.25rem;
-    }
+/* ── SECTION HEADER ── */
+.sec-hdr{display:flex;align-items:baseline;justify-content:space-between;padding:22px 0 13px;}
+.sec-title{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;color:var(--ink);}
 
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 0.6rem;
-    }
-    .card h2 {
-      font-size: 1.2rem;
-      color: var(--accent);
-    }
-    .card .author-line {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-      font-style: italic;
-    }
-    .card .review-text {
-      font-size: 0.97rem;
-      line-height: 1.7;
-      color: var(--text);
-    }
-    .card .meta {
-      margin-top: 1rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: sans-serif;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .card .delete-btn {
-      background: none;
-      border: none;
-      color: #ccc;
-      font-size: 1rem;
-      cursor: pointer;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      transition: color 0.15s;
-      flex-shrink: 0;
-    }
-    .card .delete-btn:hover { color: #c0392b; }
+/* ── REVIEW GRID ── */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:15px;padding-bottom:10px;}
+.rcard{cursor:pointer;}
+.rcard-cover{aspect-ratio:2/3;border-radius:11px;overflow:hidden;background:#F0D9C8;margin-bottom:9px;border:2.5px solid var(--dark);box-shadow:3px 3px 0 var(--dark);transition:transform .2s,box-shadow .2s;}
+.rcard:hover .rcard-cover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--dark);}
+.rcard-cover img{width:100%;height:100%;object-fit:cover;}
+.rcard-genre{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;}
+.rcard-title{font-family:'Fraunces',serif;font-size:.92rem;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:2px;}
+.rcard-author{font-size:.7rem;color:var(--ink2);margin-bottom:3px;}
 
-    /* ── Stars ── */
-    .stars { color: var(--star); font-size: 1.1rem; letter-spacing: 0.05em; }
-    .stars-input { display: flex; gap: 0.25rem; margin-top: 0.25rem; }
-    .stars-input span {
-      font-size: 1.6rem;
-      cursor: pointer;
-      color: #ddd;
-      transition: color 0.1s;
-      user-select: none;
-    }
-    .stars-input span.lit { color: var(--star); }
+/* ── STICKER TAGS ── */
+.sticker{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:.68rem;padding:3px 10px;border-radius:100px;border:2px solid var(--dark);box-shadow:2px 2px 0 var(--dark);text-transform:uppercase;letter-spacing:.5px;}
+.stk-lime{background:#FCEBD5;color:var(--dark);}
+.stk-pink{background:var(--orange);color:white;}
+.stk-sky{background:#F5D5B8;color:var(--dark);}
+.stk-orange{background:var(--orange);color:white;}
+.stk-purple{background:#D4A574;color:var(--dark);}
+.stk-yellow{background:#F5A623;color:var(--dark);}
+.stk-green{background:#C8A882;color:var(--dark);}
 
-    /* ── Empty state ── */
-    .empty {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: var(--muted);
-    }
-    .empty .book-icon { font-size: 3rem; margin-bottom: 1rem; }
-    .empty p { font-size: 1rem; }
+/* ── SECTION CARDS ── */
+.scard{border:2.5px solid var(--dark);border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:4px 4px 0 var(--dark);}
+.scard-hdr{display:flex;align-items:center;gap:9px;padding:10px 16px;border-bottom:2.5px solid var(--dark);}
+.scard-hdr-icon{font-size:1.1rem;}
+.scard-hdr-title{font-family:'Fraunces',serif;font-weight:900;font-size:.95rem;letter-spacing:-.4px;}
+.scard-body{padding:13px 16px;background:var(--white);}
+/* card header accent colors — warm palette */
+.hdr-lime{background:#FCEBD5;}
+.hdr-pink{background:#E8471D;color:white;}
+.hdr-sky{background:#F5D5B8;}
+.hdr-orange{background:#F5A623;}
+.hdr-purple{background:#D4A574;}
+.hdr-yellow{background:#F5C842;}
+.hdr-green{background:#C8D8B0;}
+.hdr-dark{background:var(--dark);color:#FFF8F0;}
+.hdr-cream{background:#FCEBD5;}
 
-    /* ── Write Review Form ── */
-    .form-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .form-card h2 {
-      font-size: 1.4rem;
-      font-weight: normal;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-    }
-    .form-row { margin-bottom: 1.2rem; }
-    label {
-      display: block;
-      font-family: sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
-    }
-    input[type="text"], textarea, select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.65rem 0.8rem;
-      font-family: 'Georgia', serif;
-      font-size: 0.97rem;
-      color: var(--text);
-      background: var(--cream);
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: var(--accent);
-    }
-    textarea { resize: vertical; min-height: 130px; }
+/* ── REVIEW PAGE TOP ── */
+.rev-page{padding:0 0 48px;}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer;margin:16px 0 14px;background:var(--white);border:2.5px solid var(--dark);padding:5px 14px;border-radius:100px;box-shadow:3px 3px 0 var(--dark);transition:all .15s;}
+.back-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark);}
 
-    .form-row-half {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+/* ── RATING BAR ── */
+.rating-bar{background:var(--dark);padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:16px;border-bottom:2.5px solid var(--dark);}
+.rating-label{color:rgba(255,255,255,.45);font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.star-btn{background:none;border:none;font-size:1.6rem;cursor:pointer;opacity:.22;transition:opacity .15s,transform .15s;line-height:1;}
+.star-btn.active{opacity:1;transform:scale(1.1);}
+.age-pill{margin-left:auto;background:var(--orange);color:white;font-weight:700;font-size:.7rem;padding:3px 13px;border-radius:100px;border:2px solid rgba(255,255,255,.25);}
 
-    .submit-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.75rem 2rem;
-      font-family: sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.15s;
-      margin-top: 0.5rem;
-    }
-    .submit-btn:hover { background: #9e5038; }
+/* ── TOP STRIP ── */
+.rev-top{background:var(--dark);padding:22px 24px 0;display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:end;}
+.rev-cover-sm{aspect-ratio:2/3;border-radius:9px;overflow:hidden;background:#3D1F0A;border:3px dashed rgba(245,166,35,.3);}
+.rev-cover-sm img{width:100%;height:100%;object-fit:cover;display:none;}
+.rev-meta-dark{padding-bottom:18px;}
+.rev-genre-tag{display:inline-block;background:var(--orange);color:white;font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 11px;border-radius:100px;margin-bottom:8px;}
+.rev-h1{font-family:'Fraunces',serif;font-size:clamp(1.7rem,4vw,2.8rem);font-weight:900;letter-spacing:-1.5px;line-height:1;color:#FFF8F0;margin-bottom:5px;}
+.rev-h1 em{font-style:italic;color:#F5A623;}
+.rev-auth{font-size:.87rem;color:rgba(255,255,255,.55);font-weight:500;margin-bottom:8px;}
+.rev-tags-row{display:flex;gap:5px;flex-wrap:wrap;}
+.rev-ec{margin-top:8px;}
 
-    .success-msg {
-      display: none;
-      background: #eaf5ea;
-      border: 1px solid #b2d9b2;
-      color: #2d6a2d;
-      border-radius: 6px;
-      padding: 0.75rem 1rem;
-      margin-top: 1rem;
-      font-family: sans-serif;
-      font-size: 0.9rem;
-    }
+/* ── BENTO ── */
+.bento{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding-top:14px;}
+.b-span2{grid-column:span 2;}
+.b-span3{grid-column:span 3;}
 
-    /* ── About ── */
-    .about-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2.5rem 2rem;
-      max-width: 560px;
-      margin: 0 auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-    .about-card .avatar { font-size: 4rem; margin-bottom: 1rem; }
-    .about-card h2 { font-weight: normal; color: var(--accent); margin-bottom: 0.75rem; }
-    .about-card p { line-height: 1.8; color: var(--muted); font-size: 0.97rem; }
-    .about-card .edit-about-btn {
-      margin-top: 1.5rem;
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.5rem 1.2rem;
-      font-family: sans-serif;
-      font-size: 0.8rem;
-      color: var(--muted);
-      cursor: pointer;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .about-card .edit-about-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .about-edit-form { display: none; margin-top: 1.5rem; text-align: left; }
-    .about-edit-form textarea { min-height: 90px; }
+/* ── LIKES / DISLIKES ── */
+.ld-split{display:grid;grid-template-columns:1fr 1fr;}
+.ld-col:first-child{border-right:2.5px solid var(--dark);}
+.ld-col-hdr{padding:8px 13px;font-weight:700;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;border-bottom:2px solid var(--dark);display:flex;align-items:center;gap:6px;}
+.ld-col-hdr.liked{background:#D8EED8;}
+.ld-col-hdr.disliked{background:#FADADD;}
+.ld-list{padding:10px 13px;display:flex;flex-direction:column;gap:7px;}
+.ld-item{display:flex;align-items:flex-start;gap:6px;font-size:.82rem;line-height:1.42;}
+.ld-dot{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:900;color:white;flex-shrink:0;margin-top:1px;border:1.5px solid var(--dark);}
+.ld-dot.l{background:#22C55E;}
+.ld-dot.d{background:#EF4444;}
 
-    /* ── Section title ── */
-    .section-title {
-      font-size: 1rem;
-      font-family: sans-serif;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .section-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+/* ── POWERS ── */
+.powers-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;}
+.power-card{background:var(--cream);border:2px solid var(--dark);border-radius:12px;padding:10px 12px;position:relative;box-shadow:3px 3px 0 var(--dark);}
+.power-badge{position:absolute;top:-8px;right:9px;background:var(--orange);color:white;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:100px;border:1.5px solid var(--dark);letter-spacing:.8px;text-transform:uppercase;}
+.power-name{font-family:'Fraunces',serif;font-weight:700;font-size:.86rem;margin-bottom:3px;color:var(--ink);}
+.power-desc{font-size:.73rem;color:var(--ink2);line-height:1.42;}
 
-    /* ── Genre badge ── */
-    .genre-badge {
-      display: inline-block;
-      background: var(--warm);
-      color: var(--accent);
-      border: 1px solid var(--accent-light);
-      border-radius: 20px;
-      padding: 0.2rem 0.7rem;
-      font-family: sans-serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
+/* ── SPOILER ── */
+.spoiler-box{background:repeating-linear-gradient(45deg,rgba(232,71,29,.04),rgba(232,71,29,.04) 10px,transparent 10px,transparent 20px);border:2px solid rgba(232,71,29,.3);border-radius:11px;padding:13px;position:relative;}
+.spoiler-blur .spoiler-inner{filter:blur(6px);pointer-events:none;user-select:none;}
+.spoiler-overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;background:rgba(255,248,240,.72);border-radius:9px;}
+.spoiler-blur .spoiler-overlay{display:flex;}
+.spoiler-reveal-btn{background:var(--orange);color:white;border:2px solid var(--dark);border-radius:100px;padding:5px 16px;font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--dark);}
+.spoiler-warn{font-size:.68rem;font-weight:700;color:var(--orange);}
 
-    /* ── Filter bar ── */
-    .filter-bar {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.25rem;
-    }
-    .filter-bar button {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.35rem 1rem;
-      font-family: sans-serif;
-      font-size: 0.78rem;
-      cursor: pointer;
-      color: var(--muted);
-      transition: all 0.15s;
-    }
-    .filter-bar button.active, .filter-bar button:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
+/* ── RECS ── */
+.recs-row{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+.recs-row::-webkit-scrollbar{display:none;}
+.rec-card{flex-shrink:0;width:86px;border:2.5px solid var(--dark);border-radius:11px;overflow:hidden;box-shadow:3px 3px 0 var(--dark);}
+.rec-cover{height:106px;background:linear-gradient(135deg,#FCEBD5,#F5D5B8);display:flex;align-items:center;justify-content:center;font-size:1.5rem;border-bottom:2px solid var(--dark);}
+.rec-info{padding:7px 8px;background:var(--white);}
+.rec-title{font-family:'Fraunces',serif;font-weight:700;font-size:.73rem;line-height:1.22;margin-bottom:2px;color:var(--ink);}
+.rec-author{font-size:.62rem;color:var(--ink2);}
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-family: sans-serif;
-      font-size: 0.8rem;
-      border-top: 1px solid var(--border);
-      margin-top: 3rem;
-    }
-  </style>
+/* ── COMING NEXT ── */
+.coming-row{display:flex;flex-direction:column;gap:7px;}
+.coming-chip{background:var(--white);border:2px solid var(--dark);border-radius:9px;padding:8px 11px;display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:7px;box-shadow:2px 2px 0 var(--dark);}
+.coming-num{font-family:'Fraunces',serif;font-weight:900;font-size:1rem;color:rgba(44,26,14,.18);}
+.coming-name{font-weight:700;font-size:.81rem;color:var(--ink);}
+.coming-auth{font-size:.67rem;color:var(--ink2);}
+.coming-status{font-size:.6rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:100px;border:1.5px solid var(--dark);white-space:nowrap;}
+.cs-next{background:var(--orange);color:white;}
+.cs-soon{background:#F5A623;color:var(--dark);}
+.cs-maybe{background:#D4A574;color:var(--dark);}
+
+/* ── VERDICT ── */
+.verdict-text{font-family:'Fraunces',serif;font-size:.96rem;font-weight:700;line-height:1.62;color:var(--ink);font-style:italic;}
+
+/* ── SUGGEST inline ── */
+.sug-form-inline{display:flex;flex-direction:column;gap:7px;}
+.sug-inp{width:100%;padding:8px 11px;background:var(--white);border:2px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.81rem;color:var(--ink);outline:none;transition:box-shadow .15s;}
+.sug-inp:focus{box-shadow:2px 2px 0 var(--orange);}
+.sug-send{padding:8px;background:var(--orange);color:white;border:2px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;box-shadow:2px 2px 0 var(--dark);transition:all .15s;}
+.sug-send:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--dark);}
+.sug-ok{color:#16a34a;font-weight:700;font-size:.76rem;display:none;}
+
+/* ── COMMENTS ── */
+.cm-form{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.cm-row2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.cm-inp{width:100%;padding:8px 12px;border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.82rem;background:var(--white);color:var(--ink);outline:none;transition:box-shadow .15s;}
+.cm-inp:focus{box-shadow:3px 3px 0 var(--orange);}
+.cm-ta{resize:vertical;min-height:58px;}
+.cm-post{align-self:flex-start;padding:8px 18px;background:var(--orange);color:white;border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;box-shadow:3px 3px 0 var(--dark);transition:all .15s;}
+.cm-post:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark);}
+.cm-list{display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto;scrollbar-width:thin;padding-right:3px;}
+.cm-item{background:var(--white);border:2px solid var(--dark);border-radius:11px;padding:9px 12px;display:flex;gap:9px;}
+.cm-av{width:30px;height:30px;border-radius:50%;background:#FCEBD5;border:2px solid var(--dark);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
+.cm-bubble{}
+.cm-namerow{display:flex;align-items:baseline;gap:7px;margin-bottom:2px;}
+.cm-name{font-size:.76rem;font-weight:700;color:var(--ink);}
+.cm-date{font-size:.64rem;color:var(--ink3);}
+.cm-text{font-size:.81rem;line-height:1.5;color:var(--ink2);}
+.no-comments{color:var(--ink3);font-size:.82rem;}
+
+/* ── SUGGEST HOME ── */
+.suggest-home{margin:8px 0 48px;background:var(--white);border:2.5px solid var(--dark);border-radius:18px;padding:32px 32px;text-align:center;box-shadow:5px 5px 0 var(--dark);}
+.sh-title{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:900;letter-spacing:-1px;color:var(--ink);margin-bottom:5px;}
+.sh-title em{font-style:italic;color:var(--orange);}
+.sh-sub{font-size:.86rem;color:var(--ink2);line-height:1.58;margin-bottom:20px;}
+.sh-form{display:flex;flex-direction:column;gap:8px;max-width:380px;margin:0 auto;}
+.sh-inp{width:100%;padding:10px 13px;background:var(--cream);border:2.5px solid var(--dark);border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.86rem;color:var(--ink);outline:none;transition:box-shadow .15s;}
+.sh-inp:focus{box-shadow:3px 3px 0 var(--orange);}
+.sh-btn{padding:11px;background:var(--orange);color:white;border:2.5px solid var(--dark);border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;box-shadow:3px 3px 0 var(--dark);transition:all .15s;}
+.sh-btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--dark);}
+.sh-ok{color:#16a34a;font-weight:700;font-size:.82rem;display:none;margin-top:4px;}
+
+/* ── ADMIN INBOX ── */
+.admin-panel{background:var(--white);border:2.5px solid var(--dark);border-radius:14px;padding:16px;margin:28px 0 0;box-shadow:4px 4px 0 var(--dark);}
+.admin-label{font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink2);margin-bottom:11px;}
+.sug-item{background:var(--cream);border:2px solid var(--dark);border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:.82rem;}
+.sug-item strong{color:var(--ink);}
+.sug-item span{color:var(--ink2);}
+.sug-delete{float:right;font-size:.68rem;font-weight:700;color:var(--orange);background:none;border:none;cursor:pointer;}
+.drafts-section{margin-top:26px;padding-top:22px;border-top:2px dashed rgba(44,26,14,.15);}
+.drafts-label{font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+
+/* ── OVERLAYS ── */
+.overlay{position:fixed;inset:0;background:rgba(44,26,14,.55);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:14px;overflow-y:auto;}
+.overlay.open{display:flex;}
+.panel{background:var(--cream);border:3px solid var(--dark);border-radius:20px;width:100%;max-width:680px;padding:28px;margin:auto;box-shadow:6px 6px 0 var(--dark);}
+.panel-title{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:900;letter-spacing:-1px;color:var(--ink);margin-bottom:20px;}
+.fgroup{margin-bottom:11px;}
+.flabel{display:block;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink2);margin-bottom:5px;}
+.finput,.fta{width:100%;padding:9px 12px;background:var(--white);border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;color:var(--ink);outline:none;transition:box-shadow .15s;}
+.finput:focus,.fta:focus{box-shadow:3px 3px 0 var(--orange);}
+.fta{resize:vertical;min-height:84px;line-height:1.62;}
+.fta-sm{min-height:58px;}
+.fgrid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.fgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+.star-row{display:flex;gap:3px;}
+.spick{font-size:1.6rem;cursor:pointer;opacity:.2;transition:opacity .15s,transform .15s;background:none;border:none;padding:2px;}
+.spick.on{opacity:1;transform:scale(1.1);}
+.uparea{border:3px dashed rgba(44,26,14,.2);border-radius:11px;padding:18px;text-align:center;cursor:pointer;transition:all .2s;background:var(--white);}
+.uparea:hover{border-color:var(--orange);background:rgba(232,71,29,.04);}
+.uparea input{display:none;}
+.uparea-hint{font-size:.8rem;color:var(--ink3);}
+.char-uparea{border:2px dashed rgba(44,26,14,.22);border-radius:9px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .2s;background:var(--cream);overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:50px;}
+.char-uparea:hover{border-color:var(--orange);background:rgba(232,71,29,.04);}
+.char-uparea input{display:none;}
+.up-preview{max-height:115px;border-radius:8px;margin:0 auto;display:block;}
+.panel-actions{display:flex;gap:8px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap;}
+.btn-cancel2{padding:8px 16px;background:var(--white);border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:700;color:var(--ink);cursor:pointer;box-shadow:2px 2px 0 var(--dark);}
+.btn-draft{padding:8px 16px;background:#F5A623;border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:700;color:var(--dark);cursor:pointer;box-shadow:2px 2px 0 var(--dark);}
+.btn-pub{padding:8px 16px;background:var(--orange);border:2.5px solid var(--dark);border-radius:9px;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:700;color:white;cursor:pointer;box-shadow:2px 2px 0 var(--dark);transition:all .15s;}
+.btn-pub:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--dark);}
+.fsection{font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin:14px 0 7px;padding-top:12px;border-top:2px dashed rgba(44,26,14,.12);}
+.finput-hint{font-size:.68rem;color:var(--ink3);margin-top:3px;}
+.settings-note{font-size:.72rem;color:var(--ink3);margin-top:-3px;margin-bottom:9px;line-height:1.5;}
+.settings-divider{border:none;border-top:2px dashed rgba(44,26,14,.12);margin:13px 0;}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--orange);color:white;padding:9px 18px;border-radius:100px;font-size:.83rem;font-weight:700;opacity:0;transform:translateY(14px);transition:all .3s;z-index:9999;pointer-events:none;border:2.5px solid var(--dark);box-shadow:3px 3px 0 var(--dark);}
+#toast.show{opacity:1;transform:none;}
+
+footer{background:var(--dark);border-top:3px solid var(--orange);color:rgba(255,248,240,.4);text-align:center;padding:18px;font-size:.76rem;font-weight:500;}
+footer strong{color:rgba(255,248,240,.7);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:780px){
+  .bento{grid-template-columns:1fr 1fr;}
+  .b-span3{grid-column:span 2;}
+  .b-span2{grid-column:span 2;}
+}
+@media(max-width:560px){
+  .hdr{padding:0 14px;}
+  .wrap{padding:0 12px;}
+  .hero{grid-template-columns:1fr;gap:18px;padding:20px 16px 0;}
+  .hero-cover{max-width:150px;margin:0 auto;}
+  .rev-top{grid-template-columns:86px 1fr;gap:12px;padding:16px 16px 0;}
+  .bento{grid-template-columns:1fr;}
+  .b-span2,.b-span3{grid-column:span 1;}
+  .fgrid2,.fgrid3{grid-template-columns:1fr;}
+  .panel{padding:18px;}
+  .ld-split{grid-template-columns:1fr;}
+  .ld-col:first-child{border-right:none;border-bottom:2.5px solid var(--dark);}
+  .cm-row2{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
 
-<header>
-  <div class="tagline">A Book Review Blog</div>
-  <h1>Between the Pages</h1>
-  <p class="subtitle" id="header-subtitle">Reading one book at a time</p>
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-icon">📚</div>
+  <div class="gate-title" id="gateTitle"><em>Between</em> the Pages</div>
+  <div class="gate-sub">Private · enter the password to get in</div>
+  <div class="gate-box">
+    <div id="gateLogin">
+      <label class="gate-label">Password</label>
+      <input class="gate-input" type="password" id="gateInput" placeholder="Enter password…" autofocus>
+      <button class="gate-btn" onclick="checkPass()">Let me in →</button>
+      <div class="gate-err" id="gateErr">nope, wrong password 🙅</div>
+      <div style="text-align:center;margin-top:14px;"><button onclick="showSetup()" style="background:none;border:none;font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:rgba(255,255,255,.35);cursor:pointer;text-decoration:underline;">First time? Set your passwords</button></div>
+    </div>
+    <div id="gateSetup" style="display:none">
+      <div style="font-family:'Fraunces',serif;font-weight:900;font-size:1.1rem;color:var(--ink);margin-bottom:14px;letter-spacing:-.5px;">Set your passwords 👋</div>
+      <label class="gate-label">Reader Password</label>
+      <div style="font-size:.72rem;color:var(--ink3);margin-bottom:6px;">Share this with friends &amp; family</div>
+      <input class="gate-input" type="password" id="setupReader" placeholder="e.g. bookworm2024" style="margin-bottom:11px;">
+      <label class="gate-label">Editor Password</label>
+      <div style="font-size:.72rem;color:var(--ink3);margin-bottom:6px;">Only for you — keep it secret!</div>
+      <input class="gate-input" type="password" id="setupEditor" placeholder="e.g. mybl0gp@ss">
+      <button class="gate-btn" onclick="saveSetup()" style="margin-top:14px;">Save &amp; Start →</button>
+      <div class="gate-err" id="setupErr">please fill in both passwords!</div>
+      <div style="text-align:center;margin-top:12px;"><button onclick="hideSetup()" style="background:none;border:none;font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:rgba(255,255,255,.35);cursor:pointer;text-decoration:underline;">← Back to login</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="shell">
+<header class="hdr">
+  <div class="hdr-logo" onclick="showHome()" id="hdrLogo">📚 <em>Between</em> the Pages</div>
+  <div class="hdr-right">
+    <span class="badge-editor" id="edBadge" style="display:none">✏️ Editor</span>
+    <button class="btn-ghost" onclick="openSettings()" id="settingsBtn" style="display:none">⚙ Settings</button>
+    <button class="btn-accent" onclick="openEditor(null)" id="newBtn" style="display:none">+ New Review</button>
+    <button class="btn-ghost" onclick="logout()">Log out</button>
+  </div>
 </header>
 
-<nav>
-  <button class="active" onclick="showSection('reviews')">All Reviews</button>
-  <button onclick="showSection('write')">Write a Review</button>
-  <button onclick="showSection('about')">About Me</button>
-</nav>
-
-<main>
-  <!-- ── Reviews ── -->
-  <section id="reviews" class="active">
-    <div class="filter-bar" id="filter-bar">
-      <button class="active" data-genre="all" onclick="setFilter('all', this)">All</button>
+<!-- HOME PAGE -->
+<div class="page on" id="pgHome">
+  <div class="hero" id="heroArea">
+    <div>
+      <div class="hero-tag">✨ Latest Review</div>
+      <div class="hero-h1" id="heroTitle">No reviews <em>yet</em></div>
+      <div class="hero-byline" id="heroByline"></div>
+      <div class="hero-excerpt" id="heroExcerpt">Check back soon for the first book review!</div>
+      <button class="hero-readmore" id="heroReadMore" style="display:none">Read full review →</button>
+      <div class="ectrls" id="heroEctrls">
+        <button class="ecbtn" id="heroEditBtn">Edit</button>
+        <button class="ecbtn del" id="heroDelBtn">Delete</button>
+      </div>
     </div>
-    <div id="reviews-list"></div>
-  </section>
+    <div class="hero-cover" id="heroCover">
+      <img id="heroCoverImg" alt="">
+      <div class="cph" id="heroCoverPh"><div class="cph-icon">📖</div><div style="font-size:.72rem">no reviews yet</div></div>
+    </div>
+  </div>
 
-  <!-- ── Write ── -->
-  <section id="write">
-    <div class="form-card">
-      <h2>Write a New Review</h2>
+  <div class="wrap">
+    <div id="adminInbox" style="display:none">
+      <div class="admin-panel">
+        <div class="admin-label">📬 Book suggestions from readers</div>
+        <div id="inboxList"></div>
+        <div id="inboxEmpty" style="color:var(--ink3);font-size:.84rem;">No suggestions yet!</div>
+      </div>
+    </div>
 
-      <div class="form-row-half">
-        <div class="form-row">
-          <label for="book-title">Book Title</label>
-          <input type="text" id="book-title" placeholder="e.g. The Giver" />
-        </div>
-        <div class="form-row">
-          <label for="book-author">Author</label>
-          <input type="text" id="book-author" placeholder="e.g. Lois Lowry" />
+    <div id="gridSection">
+      <div class="sec-hdr"><div class="sec-title">All Reviews</div></div>
+      <div class="rgrid" id="revGrid"></div>
+    </div>
+
+    <div class="drafts-section" id="draftsSection" style="display:none">
+      <div class="drafts-label">Drafts — only you can see these</div>
+      <div class="rgrid" id="draftsGrid"></div>
+    </div>
+  </div>
+
+  <div id="suggestSection" style="display:none">
+    <div class="wrap">
+      <div class="suggest-home">
+        <div class="sh-title">Suggest a <em>Book!</em> 💌</div>
+        <div class="sh-sub">Have a book you'd love to see reviewed?<br>Drop it in and I'll check it out! 📚</div>
+        <div class="sh-form">
+          <input class="sh-inp" type="text" id="sugName" placeholder="Your name (optional)">
+          <input class="sh-inp" type="text" id="sugBook" placeholder="Book title &amp; author *">
+          <textarea class="sh-inp" id="sugNote" placeholder="Why should I read it? (optional)" style="resize:vertical;min-height:62px;font-family:inherit;"></textarea>
+          <button class="sh-btn" onclick="submitSug()">Send it ✨</button>
+          <div class="sh-ok" id="sugOk">🎉 yesss! I'll check it out!</div>
         </div>
       </div>
+    </div>
+  </div>
+</div><!-- /pgHome -->
 
-      <div class="form-row-half">
-        <div class="form-row">
-          <label>My Rating</label>
-          <div class="stars-input" id="star-input">
-            <span data-v="1">★</span>
-            <span data-v="2">★</span>
-            <span data-v="3">★</span>
-            <span data-v="4">★</span>
-            <span data-v="5">★</span>
+<!-- REVIEW PAGE -->
+<div class="page" id="pgReview">
+  <div class="rev-top" id="revTop">
+    <div class="rev-cover-sm" id="revCoverSm">
+      <img id="revCoverImg" alt="">
+      <div class="cph" id="revCoverPh"><div class="cph-icon">📖</div></div>
+    </div>
+    <div class="rev-meta-dark">
+      <div class="rev-genre-tag" id="revGenreTag"></div>
+      <div class="rev-h1" id="revTitle"></div>
+      <div class="rev-auth" id="revAuth"></div>
+      <div class="rev-tags-row" id="revTagsRow"></div>
+      <div class="rev-ec ectrls" id="revEctrls">
+        <button class="ecbtn" id="revEditBtn" style="background:var(--cream)">Edit</button>
+        <button class="ecbtn del" id="revDelBtn" style="background:var(--cream)">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rating-bar" id="ratingBar">
+    <span class="rating-label">My Rating</span>
+    <div id="revStars" style="display:flex;gap:4px;"></div>
+    <span style="color:rgba(255,255,255,.5);font-size:.78rem;font-weight:700;" id="revRatTxt"></span>
+    <div class="age-pill" id="revAgePill" style="display:none"></div>
+  </div>
+
+  <div class="wrap">
+    <button class="back-btn" onclick="showHome()">← All reviews</button>
+    <div class="bento" id="bentoGrid">
+
+      <!-- WHAT IT'S ABOUT -->
+      <div class="scard b-span2" id="bAbout">
+        <div class="scard-hdr hdr-lime"><span class="scard-hdr-icon">📖</span><span class="scard-hdr-title">What it's about</span></div>
+        <div class="scard-body" style="font-size:.9rem;line-height:1.75;color:var(--ink);" id="revSummary"></div>
+      </div>
+
+      <!-- VERDICT -->
+      <div class="scard" id="bVerdict">
+        <div class="scard-hdr hdr-yellow"><span class="scard-hdr-icon">⚡</span><span class="scard-hdr-title">Final verdict</span></div>
+        <div class="scard-body"><div class="verdict-text" id="revVerdict"></div></div>
+      </div>
+
+      <!-- MY THOUGHTS -->
+      <div class="scard b-span2" id="bThoughts">
+        <div class="scard-hdr hdr-sky"><span class="scard-hdr-icon">💭</span><span class="scard-hdr-title">My thoughts</span></div>
+        <div class="scard-body" style="font-size:.9rem;line-height:1.75;color:var(--ink);" id="revThoughts"></div>
+      </div>
+
+      <!-- LIKES & DISLIKES -->
+      <div class="scard" id="bLD">
+        <div class="scard-hdr hdr-green"><span class="scard-hdr-icon">✌️</span><span class="scard-hdr-title">Likes &amp; Dislikes</span></div>
+        <div class="ld-split">
+          <div class="ld-col">
+            <div class="ld-col-hdr liked">👍 Loved it</div>
+            <div class="ld-list" id="likesList"></div>
+          </div>
+          <div class="ld-col">
+            <div class="ld-col-hdr disliked">👎 Not so much</div>
+            <div class="ld-list" id="dislikesList"></div>
           </div>
         </div>
-        <div class="form-row">
-          <label for="book-genre">Genre</label>
-          <select id="book-genre">
-            <option value="">— choose one —</option>
-            <option>Fantasy</option>
-            <option>Adventure</option>
-            <option>Mystery</option>
-            <option>Historical Fiction</option>
-            <option>Science Fiction</option>
-            <option>Realistic Fiction</option>
-            <option>Non-Fiction</option>
-            <option>Graphic Novel</option>
-            <option>Poetry</option>
-            <option>Other</option>
-          </select>
+      </div>
+
+      <!-- CHARACTER POWERS -->
+      <div class="scard b-span2" id="bPowers">
+        <div class="scard-hdr hdr-purple"><span class="scard-hdr-icon">⚡</span><span class="scard-hdr-title">Character powers</span></div>
+        <div class="scard-body"><div class="powers-row" id="powersList"></div></div>
+      </div>
+
+      <!-- SPOILER ALERT -->
+      <div class="scard" id="bSpoiler">
+        <div class="scard-hdr hdr-pink"><span class="scard-hdr-icon">🚨</span><span class="scard-hdr-title">Spoiler alert!</span></div>
+        <div class="scard-body">
+          <div class="spoiler-box spoiler-blur" id="spoilerWrap">
+            <div class="spoiler-inner" id="spoilerText" style="font-size:.88rem;line-height:1.65;"></div>
+            <div class="spoiler-overlay" id="spoilerOverlay">
+              <span class="spoiler-warn">⚠️ Spoilers inside!</span>
+              <button class="spoiler-reveal-btn" onclick="revealSpoiler()">Show anyway</button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="form-row">
-        <label for="review-text">My Review</label>
-        <textarea id="review-text" placeholder="What did you think? Who would you recommend this book to? What was your favorite part?"></textarea>
+      <!-- IF YOU LIKED THIS -->
+      <div class="scard b-span2" id="bRecs">
+        <div class="scard-hdr hdr-orange"><span class="scard-hdr-icon">📚</span><span class="scard-hdr-title">If you liked this...</span></div>
+        <div class="scard-body"><div class="recs-row" id="recsList"></div></div>
       </div>
 
-      <button class="submit-btn" onclick="submitReview()">Publish Review</button>
-      <div class="success-msg" id="success-msg">Your review has been published!</div>
+      <!-- COMING NEXT -->
+      <div class="scard" id="bComing">
+        <div class="scard-hdr hdr-dark"><span class="scard-hdr-icon">🔮</span><span class="scard-hdr-title">What's coming next</span></div>
+        <div class="scard-body"><div class="coming-row" id="comingList"></div></div>
+      </div>
+
+      <!-- SUGGEST -->
+      <div class="scard b-span2" id="bSuggest" style="display:none">
+        <div class="scard-hdr hdr-lime"><span class="scard-hdr-icon">💌</span><span class="scard-hdr-title">Tell me what to review next!</span></div>
+        <div class="scard-body">
+          <div class="sug-form-inline">
+            <input class="sug-inp" type="text" id="sugNameRev" placeholder="Your name (optional)">
+            <input class="sug-inp" type="text" id="sugBookRev" placeholder="Book title &amp; author *">
+            <textarea class="sug-inp cm-ta" id="sugNoteRev" placeholder="Why should I read it?" style="resize:vertical;min-height:56px;font-family:inherit;"></textarea>
+            <button class="sug-send" onclick="submitSugRev()">Send suggestion ✨</button>
+            <div class="sug-ok" id="sugOkRev">🎉 added to my list!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMENTS -->
+      <div class="scard" id="bComments">
+        <div class="scard-hdr hdr-cream"><span class="scard-hdr-icon">💬</span><span class="scard-hdr-title">Comments</span></div>
+        <div class="scard-body">
+          <div class="cm-form">
+            <div class="cm-row2">
+              <input class="cm-inp" type="text" id="cmName" placeholder="Your name">
+              <input class="cm-inp" type="text" id="cmEmoji" placeholder="emoji 🦋">
+            </div>
+            <textarea class="cm-inp cm-ta" id="cmText" placeholder="Leave a comment…" style="resize:vertical;min-height:62px;"></textarea>
+            <button class="cm-post" onclick="submitComment()">Post it 🚀</button>
+          </div>
+          <div class="cm-list" id="cmList"></div>
+          <div class="no-comments" id="noCmts">no comments yet — be first! 👇</div>
+        </div>
+      </div>
+
+    </div><!-- /bento -->
+  </div>
+</div><!-- /pgReview -->
+
+<footer id="ftr">Made with 📚 &amp; ✨ by <strong id="ftrName">Between the Pages</strong> · All rights reserved</footer>
+</div><!-- /shell -->
+
+<!-- EDITOR OVERLAY -->
+<div class="overlay" id="edOverlay">
+  <div class="panel">
+    <div class="panel-title" id="edHeading">New Review ✏️</div>
+    <input type="hidden" id="editIdx">
+    <div class="fgrid2">
+      <div class="fgroup"><label class="flabel">Book Title *</label><input class="finput" type="text" id="fTitle" placeholder="e.g. Harry Potter"></div>
+      <div class="fgroup"><label class="flabel">Author *</label><input class="finput" type="text" id="fAuthor" placeholder="e.g. J.K. Rowling"></div>
     </div>
-  </section>
-
-  <!-- ── About ── -->
-  <section id="about">
-    <div class="about-card">
-      <div class="avatar">📚</div>
-      <h2 id="about-name">Hi, I'm a Book Lover!</h2>
-      <p id="about-bio">Welcome to Between the Pages — my little corner of the internet where I share my honest thoughts on every book I read. I love getting lost in a great story and can't wait to share my favorites with you!</p>
-      <button class="edit-about-btn" onclick="toggleAboutEdit()">Edit My Bio</button>
-      <div class="about-edit-form" id="about-edit-form">
-        <div class="form-row">
-          <label for="edit-name">Your Name / Blogger Name</label>
-          <input type="text" id="edit-name" />
+    <div class="fgrid3">
+      <div class="fgroup"><label class="flabel">Genre</label><input class="finput" type="text" id="fGenre" placeholder="Fantasy…"></div>
+      <div class="fgroup"><label class="flabel">Age Range</label><input class="finput" type="text" id="fAge" placeholder="Ages 10+"></div>
+      <div class="fgroup"><label class="flabel">My Rating</label>
+        <div class="star-row" id="starRow">
+          <button class="spick" onclick="pickStar(1)">⭐</button>
+          <button class="spick" onclick="pickStar(2)">⭐</button>
+          <button class="spick" onclick="pickStar(3)">⭐</button>
+          <button class="spick" onclick="pickStar(4)">⭐</button>
+          <button class="spick" onclick="pickStar(5)">⭐</button>
         </div>
-        <div class="form-row">
-          <label for="edit-bio">Your Bio</label>
-          <textarea id="edit-bio"></textarea>
-        </div>
-        <div class="form-row">
-          <label for="edit-subtitle">Blog Tagline</label>
-          <input type="text" id="edit-subtitle" />
-        </div>
-        <button class="submit-btn" onclick="saveAbout()">Save</button>
       </div>
     </div>
-  </section>
-</main>
+    <div class="fgroup">
+      <label class="flabel">Book Cover Photo</label>
+      <div class="uparea" onclick="document.getElementById('fCoverFile').click()">
+        <input type="file" id="fCoverFile" accept="image/*" onchange="loadCover(this)">
+        <div id="upHint" class="uparea-hint">📸 Click to upload a cover image</div>
+        <img id="upPreview" class="up-preview" style="display:none" src="" alt="">
+      </div>
+    </div>
+    <div class="fgroup"><label class="flabel">What's it about?</label><textarea class="fta fta-sm" id="fSummary" placeholder="Short description, no spoilers!"></textarea></div>
+    <div class="fgroup"><label class="flabel">My Thoughts</label><textarea class="fta" id="fThoughts" placeholder="What did you love? What didn't you like?"></textarea></div>
+    <div class="fgroup"><label class="flabel">Final Verdict (one line!)</label><input class="finput" type="text" id="fVerdict" placeholder="e.g. A must-read!"></div>
+    <div class="fsection">⚡ Character Powers (up to 4)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <label class="flabel">Character 1</label>
+        <input class="finput" type="text" id="pc1n" placeholder="Name" style="margin-bottom:6px;">
+        <input class="finput" type="text" id="pc1p" placeholder="Power / Ability" style="margin-bottom:8px;">
+        <label class="flabel">Photo (optional)</label>
+        <div class="char-uparea" onclick="document.getElementById('pc1img').click()">
+          <input type="file" id="pc1img" accept="image/*" onchange="loadCharImg(this,1)">
+          <span id="pc1hint" style="font-size:.72rem;color:var(--ink3);">📷 Upload photo</span>
+          <img id="pc1prev" src="" alt="" style="display:none;max-height:80px;border-radius:7px;margin:0 auto;">
+        </div>
+      </div>
+      <div style="background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <label class="flabel">Character 2</label>
+        <input class="finput" type="text" id="pc2n" placeholder="Name" style="margin-bottom:6px;">
+        <input class="finput" type="text" id="pc2p" placeholder="Power / Ability" style="margin-bottom:8px;">
+        <label class="flabel">Photo (optional)</label>
+        <div class="char-uparea" onclick="document.getElementById('pc2img').click()">
+          <input type="file" id="pc2img" accept="image/*" onchange="loadCharImg(this,2)">
+          <span id="pc2hint" style="font-size:.72rem;color:var(--ink3);">📷 Upload photo</span>
+          <img id="pc2prev" src="" alt="" style="display:none;max-height:80px;border-radius:7px;margin:0 auto;">
+        </div>
+      </div>
+      <div style="background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <label class="flabel">Character 3</label>
+        <input class="finput" type="text" id="pc3n" placeholder="Name" style="margin-bottom:6px;">
+        <input class="finput" type="text" id="pc3p" placeholder="Power / Ability" style="margin-bottom:8px;">
+        <label class="flabel">Photo (optional)</label>
+        <div class="char-uparea" onclick="document.getElementById('pc3img').click()">
+          <input type="file" id="pc3img" accept="image/*" onchange="loadCharImg(this,3)">
+          <span id="pc3hint" style="font-size:.72rem;color:var(--ink3);">📷 Upload photo</span>
+          <img id="pc3prev" src="" alt="" style="display:none;max-height:80px;border-radius:7px;margin:0 auto;">
+        </div>
+      </div>
+      <div style="background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <label class="flabel">Character 4</label>
+        <input class="finput" type="text" id="pc4n" placeholder="Name" style="margin-bottom:6px;">
+        <input class="finput" type="text" id="pc4p" placeholder="Power / Ability" style="margin-bottom:8px;">
+        <label class="flabel">Photo (optional)</label>
+        <div class="char-uparea" onclick="document.getElementById('pc4img').click()">
+          <input type="file" id="pc4img" accept="image/*" onchange="loadCharImg(this,4)">
+          <span id="pc4hint" style="font-size:.72rem;color:var(--ink3);">📷 Upload photo</span>
+          <img id="pc4prev" src="" alt="" style="display:none;max-height:80px;border-radius:7px;margin:0 auto;">
+        </div>
+      </div>
+    </div>
+    <div class="fsection">✌️ 3 Likes &amp; 3 Dislikes</div>
+    <div class="fgrid2">
+      <div>
+        <div class="fgroup"><label class="flabel" style="color:#16a34a">Like 1</label><input class="finput" type="text" id="lk1" placeholder="Something you loved"></div>
+        <div class="fgroup"><label class="flabel" style="color:#16a34a">Like 2</label><input class="finput" type="text" id="lk2" placeholder="Another thing"></div>
+        <div class="fgroup"><label class="flabel" style="color:#16a34a">Like 3</label><input class="finput" type="text" id="lk3" placeholder="One more"></div>
+      </div>
+      <div>
+        <div class="fgroup"><label class="flabel" style="color:#ef4444">Dislike 1</label><input class="finput" type="text" id="dl1" placeholder="Something you didn't like"></div>
+        <div class="fgroup"><label class="flabel" style="color:#ef4444">Dislike 2</label><input class="finput" type="text" id="dl2" placeholder="Another thing"></div>
+        <div class="fgroup"><label class="flabel" style="color:#ef4444">Dislike 3</label><input class="finput" type="text" id="dl3" placeholder="One more"></div>
+      </div>
+    </div>
+    <div class="fsection">🚨 Spoiler Alert</div>
+    <div class="fgroup"><textarea class="fta fta-sm" id="fSpoiler" placeholder="Spoilers here — readers must click to reveal!"></textarea></div>
+    <div class="fsection">📚 If You Liked This... (up to 3)</div>
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:grid;grid-template-columns:88px 1fr;gap:11px;align-items:start;background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <div>
+          <label class="flabel">Cover</label>
+          <div class="char-uparea" onclick="document.getElementById('ri1img').click()" style="height:110px;">
+            <input type="file" id="ri1img" accept="image/*" onchange="loadRecImg(this,1)">
+            <span id="ri1hint" style="font-size:.68rem;color:var(--ink3);">📷 Cover</span>
+            <img id="ri1prev" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px;">
+          </div>
+        </div>
+        <div>
+          <div class="fgroup"><label class="flabel">Book 1 Title</label><input class="finput" type="text" id="rec1t" placeholder="Title"></div>
+          <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="rec1a" placeholder="Author"></div>
+          <div class="fgroup"><label class="flabel">Why similar?</label><input class="finput" type="text" id="rec1w" placeholder="Brief reason"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:88px 1fr;gap:11px;align-items:start;background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <div>
+          <label class="flabel">Cover</label>
+          <div class="char-uparea" onclick="document.getElementById('ri2img').click()" style="height:110px;">
+            <input type="file" id="ri2img" accept="image/*" onchange="loadRecImg(this,2)">
+            <span id="ri2hint" style="font-size:.68rem;color:var(--ink3);">📷 Cover</span>
+            <img id="ri2prev" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px;">
+          </div>
+        </div>
+        <div>
+          <div class="fgroup"><label class="flabel">Book 2 Title</label><input class="finput" type="text" id="rec2t" placeholder="Title"></div>
+          <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="rec2a" placeholder="Author"></div>
+          <div class="fgroup"><label class="flabel">Why similar?</label><input class="finput" type="text" id="rec2w" placeholder="Brief reason"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:88px 1fr;gap:11px;align-items:start;background:var(--white);border:2px solid var(--dark);border-radius:12px;padding:12px;box-shadow:2px 2px 0 var(--dark);">
+        <div>
+          <label class="flabel">Cover</label>
+          <div class="char-uparea" onclick="document.getElementById('ri3img').click()" style="height:110px;">
+            <input type="file" id="ri3img" accept="image/*" onchange="loadRecImg(this,3)">
+            <span id="ri3hint" style="font-size:.68rem;color:var(--ink3);">📷 Cover</span>
+            <img id="ri3prev" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:6px;">
+          </div>
+        </div>
+        <div>
+          <div class="fgroup"><label class="flabel">Book 3 Title</label><input class="finput" type="text" id="rec3t" placeholder="Title"></div>
+          <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="rec3a" placeholder="Author"></div>
+          <div class="fgroup"><label class="flabel">Why similar?</label><input class="finput" type="text" id="rec3w" placeholder="Brief reason"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fsection">🔮 What's Coming Next (up to 3)</div>
+    <div class="fgrid3">
+      <div class="fgroup"><label class="flabel">Next Up</label><input class="finput" type="text" id="cm1t" placeholder="Book title"></div>
+      <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="cm1a" placeholder="Author"></div>
+      <div class="fgroup"><label class="flabel">Status</label><select class="finput" id="cm1s"><option value="next">Reading next!</option><option value="soon">Coming soon</option><option value="maybe">Maybe</option></select></div>
+      <div class="fgroup"><label class="flabel">Book 2</label><input class="finput" type="text" id="cm2t" placeholder="Book title"></div>
+      <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="cm2a" placeholder="Author"></div>
+      <div class="fgroup"><label class="flabel">Status</label><select class="finput" id="cm2s"><option value="next">Reading next!</option><option value="soon">Coming soon</option><option value="maybe">Maybe</option></select></div>
+      <div class="fgroup"><label class="flabel">Book 3</label><input class="finput" type="text" id="cm3t" placeholder="Book title"></div>
+      <div class="fgroup"><label class="flabel">Author</label><input class="finput" type="text" id="cm3a" placeholder="Author"></div>
+      <div class="fgroup"><label class="flabel">Status</label><select class="finput" id="cm3s"><option value="next">Reading next!</option><option value="soon">Coming soon</option><option value="maybe">Maybe</option></select></div>
+    </div>
+    <div class="panel-actions">
+      <button class="btn-cancel2" onclick="closeEditor()">Cancel</button>
+      <button class="btn-draft" onclick="savePost(false)">Save Draft</button>
+      <button class="btn-pub" onclick="savePost(true)">🚀 Publish!</button>
+    </div>
+  </div>
+</div>
 
-<footer>
-  &copy; Between the Pages &mdash; made with ♥ and lots of books
-</footer>
+<!-- SETTINGS OVERLAY -->
+<div class="overlay" id="stOverlay">
+  <div class="panel" style="max-width:460px">
+    <div class="panel-title">Settings ⚙️</div>
+    <div class="fgroup"><label class="flabel">Blog Name</label><input class="finput" type="text" id="sBlogName"></div>
+    <div class="fgroup"><label class="flabel">Tagline</label><input class="finput" type="text" id="sTagline"></div>
+    <hr class="settings-divider">
+    <div class="fgroup"><label class="flabel">Reader Password</label><input class="finput" type="password" id="sReaderPass" placeholder="New reader password"><div class="settings-note">Leave blank to keep current. Default: bookvibes</div></div>
+    <div class="fgroup"><label class="flabel">Editor Password (yours)</label><input class="finput" type="password" id="sEditorPass" placeholder="New editor password"><div class="settings-note">Leave blank to keep current. Default: editor123</div></div>
+    <div class="panel-actions">
+      <button class="btn-cancel2" onclick="closeSettings()">Cancel</button>
+      <button class="btn-pub" onclick="saveSettings()">Save ✅</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script>
-  // ── State ──────────────────────────────────────────────
-  let reviews = JSON.parse(localStorage.getItem('btpReviews') || '[]');
-  let about   = JSON.parse(localStorage.getItem('btpAbout')   || '{}');
-  let selectedRating = 0;
-  let activeFilter = 'all';
+function getStore(){return JSON.parse(localStorage.getItem('_blogv6')||JSON.stringify({blogName:'Between the Pages',tagline:'Reviews for curious readers',readerPass:'bookvibes',editorPass:'editor123',posts:[],suggestions:[]}));}
+function setStore(s){localStorage.setItem('_blogv6',JSON.stringify(s));}
+let DB=getStore(),role=null,curIdx=null,edRating=5,edCover=null;
 
-  function save() {
-    localStorage.setItem('btpReviews', JSON.stringify(reviews));
+function starHTML(n){
+  const cols=['','#C0340F','#C07820','#E8471D','#D4884A','#E8471D'];
+  const c=cols[Math.max(1,Math.min(5,n))];
+  return `<span style="color:${c};font-size:1.3rem;letter-spacing:2px">${'★'.repeat(n)}</span><span style="color:rgba(44,26,14,.12);font-size:1.3rem;letter-spacing:2px">${'★'.repeat(5-n)}</span>`;
+}
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+
+// ── PASSWORD SETUP ──
+function showSetup(){document.getElementById('gateLogin').style.display='none';document.getElementById('gateSetup').style.display='block';}
+function hideSetup(){document.getElementById('gateSetup').style.display='none';document.getElementById('gateLogin').style.display='block';}
+function saveSetup(){
+  const r=document.getElementById('setupReader').value.trim();
+  const e=document.getElementById('setupEditor').value.trim();
+  const err=document.getElementById('setupErr');
+  if(!r||!e){err.style.display='block';setTimeout(()=>err.style.display='none',3000);return;}
+  const db=getStore();db.readerPass=r;db.editorPass=e;setStore(db);
+  hideSetup();
+  document.getElementById('gateInput').value='';
+  toast('passwords saved! now log in ✅');
+}
+
+// ── CHAR IMAGE UPLOADS ──
+const _charImgs={};
+function loadCharImg(input,n){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    _charImgs[n]=e.target.result;
+    const hint=document.getElementById('pc'+n+'hint');
+    const prev=document.getElementById('pc'+n+'prev');
+    if(hint)hint.style.display='none';
+    if(prev){prev.src=e.target.result;prev.style.display='block';}
+  };
+  r.readAsDataURL(file);
+}
+
+// ── REC IMAGE UPLOADS ──
+const _recImgs={};
+function loadRecImg(input,n){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    _recImgs[n]=e.target.result;
+    const hint=document.getElementById('ri'+n+'hint');
+    const prev=document.getElementById('ri'+n+'prev');
+    if(hint)hint.style.display='none';
+    if(prev){prev.src=e.target.result;prev.style.display='block';}
+  };
+  r.readAsDataURL(file);
+}
+
+function checkPass(){
+  DB=getStore();const v=document.getElementById('gateInput').value.trim();
+  if(v===DB.editorPass){role='editor';enter();}
+  else if(v===DB.readerPass){role='reader';enter();}
+  else{const e=document.getElementById('gateErr');e.style.display='block';document.getElementById('gateInput').value='';setTimeout(()=>e.style.display='none',3000);}
+}
+function enter(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('shell').style.display='block';
+  if(role==='editor'){
+    document.getElementById('edBadge').style.display='inline';
+    document.getElementById('settingsBtn').style.display='inline';
+    document.getElementById('newBtn').style.display='inline';
+    document.body.classList.add('is-editor');
   }
+  renderHome();
+}
+function logout(){role=null;curIdx=null;document.getElementById('gate').style.display='flex';document.getElementById('shell').style.display='none';document.getElementById('gateInput').value='';document.body.classList.remove('is-editor');showPage('pgHome');}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>{p.classList.remove('on');p.style.display='';});const el=document.getElementById(id);el.classList.add('on');el.style.display='block';window.scrollTo({top:0,behavior:'smooth'});}
+function showHome(){showPage('pgHome');renderHome();}
 
-  // ── Navigation ──────────────────────────────────────────
-  function showSection(id) {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('nav button').forEach((b, i) => {
-      b.classList.toggle('active', ['reviews','write','about'][i] === id);
-    });
+function renderHome(){
+  DB=getStore();
+  const name=DB.blogName||'Between the Pages';
+  document.getElementById('hdrLogo').innerHTML='📚 '+esc(name);
+  document.getElementById('ftrName').textContent=name;
+  document.getElementById('gateTitle').innerHTML='<em>Between</em> the Pages';
+  document.title=name;
+  const pub=DB.posts.filter(p=>p.published);
+  const latest=pub.length?pub[pub.length-1]:null;
+  const hT=document.getElementById('heroTitle'),hBy=document.getElementById('heroByline'),hEx=document.getElementById('heroExcerpt'),hRM=document.getElementById('heroReadMore'),hImg=document.getElementById('heroCoverImg'),hPh=document.getElementById('heroCoverPh');
+  if(latest){
+    const li=DB.posts.indexOf(latest);
+    hT.innerHTML=esc(latest.title).replace(/([\w]+)$/,'<em>$1</em>');hT.onclick=()=>openPost(li);
+    document.getElementById('heroCover').onclick=()=>openPost(li);
+    hBy.innerHTML=`<span class="pill">${esc(latest.author)}</span>${latest.rating?`<span>${starHTML(latest.rating)}</span>`:''} ${latest.genre?`<span class="pill">${esc(latest.genre)}</span>`:''}${latest.ageRange?`<span class="pill green">${esc(latest.ageRange)}</span>`:''}`;
+    hEx.textContent=(latest.summary||'').slice(0,180)+((latest.summary||'').length>180?'…':'');
+    hRM.style.display='inline-flex';hRM.onclick=()=>openPost(li);
+    if(latest.cover){hImg.src=latest.cover;hImg.style.display='block';hPh.style.display='none';}
+    else{hImg.style.display='none';hPh.style.display='flex';}
+    document.getElementById('heroEditBtn').onclick=()=>openEditor(li);
+    document.getElementById('heroDelBtn').onclick=()=>deletePost(li);
+  } else {
+    hT.innerHTML='No reviews <em>yet</em>';hT.onclick=null;document.getElementById('heroCover').onclick=null;
+    hBy.innerHTML='';hEx.textContent=role==='editor'?'Click "+ New Review" to write your first review ✨':'Check back soon! 📚';
+    hRM.style.display='none';hImg.style.display='none';hPh.style.display='flex';
   }
+  const grid=document.getElementById('revGrid');grid.innerHTML='';
+  const rest=pub.slice(0,-1).reverse();
+  document.getElementById('gridSection').style.display=(rest.length===0&&pub.length===0)?'none':'block';
+  if(rest.length===0&&pub.length>0){grid.innerHTML='<div style="color:var(--ink3);font-size:.84rem;padding:8px 0">just one so far — more coming! ✨</div>';}
+  else{rest.forEach(post=>{const idx=DB.posts.indexOf(post);const c=document.createElement('div');c.className='rcard';c.innerHTML=`<div class="rcard-cover" onclick="openPost(${idx})">${post.cover?`<img src="${post.cover}" alt="">`:`<div class="cph" style="background:#e8e0f0"><div class="cph-icon" style="color:#888">📖</div></div>`}</div><div class="rcard-genre">${esc(post.genre||'Review')}</div><div class="rcard-title" onclick="openPost(${idx})">${esc(post.title)}</div><div class="rcard-author">by ${esc(post.author)}</div><div style="margin-top:3px">${starHTML(post.rating)}</div><div class="ectrls"><button class="ecbtn" onclick="openEditor(${idx})">Edit</button><button class="ecbtn del" onclick="deletePost(${idx})">Delete</button></div>`;grid.appendChild(c);});}
+  const dSec=document.getElementById('draftsSection'),dGrid=document.getElementById('draftsGrid');dGrid.innerHTML='';
+  if(role==='editor'){const drafts=DB.posts.filter(p=>!p.published);if(drafts.length){dSec.style.display='block';drafts.forEach(post=>{const idx=DB.posts.indexOf(post);const c=document.createElement('div');c.className='rcard';c.style.opacity='.55';c.innerHTML=`<div class="rcard-cover">${post.cover?`<img src="${post.cover}" alt="">`:`<div class="cph" style="background:#e8e0f0"><div class="cph-icon" style="color:#888">📖</div></div>`}</div><div class="rcard-genre" style="color:var(--ink3)">Draft</div><div class="rcard-title">${esc(post.title)}</div><div class="rcard-author">by ${esc(post.author)}</div><div class="ectrls" style="display:flex"><button class="ecbtn" onclick="openEditor(${idx})">Edit &amp; Publish</button><button class="ecbtn del" onclick="deletePost(${idx})">Delete</button></div>`;dGrid.appendChild(c);});}else dSec.style.display='none';}else dSec.style.display='none';
+  if(role==='editor'){
+    document.getElementById('adminInbox').style.display='block';document.getElementById('suggestSection').style.display='none';
+    const list=document.getElementById('inboxList');list.innerHTML='';
+    if(DB.suggestions&&DB.suggestions.length){document.getElementById('inboxEmpty').style.display='none';DB.suggestions.slice().reverse().forEach((s,ri)=>{const realIdx=DB.suggestions.length-1-ri;const el=document.createElement('div');el.className='sug-item';el.innerHTML=`<strong>${esc(s.book)}</strong>${s.name?' — from '+esc(s.name):''}${s.note?`<br><span>${esc(s.note)}</span>`:''}<button class="sug-delete" onclick="deleteSug(${realIdx})">✕</button>`;list.appendChild(el);});}
+    else document.getElementById('inboxEmpty').style.display='block';
+  } else {document.getElementById('adminInbox').style.display='none';document.getElementById('suggestSection').style.display='block';}
+}
 
-  // ── Stars ───────────────────────────────────────────────
-  const starSpans = document.querySelectorAll('#star-input span');
-  starSpans.forEach(s => {
-    s.addEventListener('mouseover', () => highlightStars(+s.dataset.v));
-    s.addEventListener('mouseout',  () => highlightStars(selectedRating));
-    s.addEventListener('click',     () => { selectedRating = +s.dataset.v; highlightStars(selectedRating); });
-  });
-  function highlightStars(n) {
-    starSpans.forEach(s => s.classList.toggle('lit', +s.dataset.v <= n));
+function openPost(idx){curIdx=idx;showPage('pgReview');renderReview(idx);}
+function renderReview(idx){
+  DB=getStore();const p=DB.posts[idx];if(!p){showHome();return;}
+  const img=document.getElementById('revCoverImg'),ph=document.getElementById('revCoverPh');
+  if(p.cover){img.src=p.cover;img.style.display='block';ph.style.display='none';}else{img.style.display='none';ph.style.display='flex';}
+  document.getElementById('revGenreTag').textContent=p.genre||'Review';
+  document.getElementById('revTitle').innerHTML=esc(p.title);
+  document.getElementById('revAuth').textContent='by '+p.author;
+  document.getElementById('revStars').innerHTML=starHTML(p.rating);
+  document.getElementById('revRatTxt').textContent=p.rating+'/5';
+  const ap=document.getElementById('revAgePill');if(p.ageRange){ap.textContent='👤 '+p.ageRange;ap.style.display='block';}else ap.style.display='none';
+  const tags=document.getElementById('revTagsRow');tags.innerHTML='';
+  if(p.genre)tags.innerHTML+=`<span class="sticker stk-sky">${esc(p.genre)}</span>`;
+  if(role==='editor'){document.getElementById('revEditBtn').onclick=()=>openEditor(idx);document.getElementById('revDelBtn').onclick=()=>deletePost(idx);}
+  document.getElementById('revSummary').textContent=p.summary||'';
+  document.getElementById('revThoughts').textContent=p.thoughts||'';
+  document.getElementById('revVerdict').textContent=p.verdict||'';
+  document.getElementById('bAbout').style.display=p.summary?'block':'none';
+  document.getElementById('bThoughts').style.display=p.thoughts?'block':'none';
+  document.getElementById('bVerdict').style.display=p.verdict?'block':'none';
+  const likes=[p.lk1,p.lk2,p.lk3].filter(Boolean),dislikes=[p.dl1,p.dl2,p.dl3].filter(Boolean);
+  const lL=document.getElementById('likesList');lL.innerHTML='';likes.forEach(t=>{const el=document.createElement('div');el.className='ld-item';el.innerHTML=`<div class="ld-dot l">✓</div><span>${esc(t)}</span>`;lL.appendChild(el);});
+  const dL=document.getElementById('dislikesList');dL.innerHTML='';dislikes.forEach(t=>{const el=document.createElement('div');el.className='ld-item';el.innerHTML=`<div class="ld-dot d">✗</div><span>${esc(t)}</span>`;dL.appendChild(el);});
+  document.getElementById('bLD').style.display=(likes.length||dislikes.length)?'block':'none';
+  const powers=p.powers||[];const pL=document.getElementById('powersList');pL.innerHTML='';
+  powers.forEach((pw,i)=>{if(!pw.name)return;const cols=['#E8471D','#F5A623','#D4A574','#C8A882'];const el=document.createElement('div');el.className='power-card';
+    const imgHTML=pw.img?`<img src="${pw.img}" alt="${esc(pw.name)}" style="width:100%;height:90px;object-fit:cover;border-radius:8px;margin-bottom:8px;border:1.5px solid var(--dark);">`:'';
+    el.innerHTML=`<div class="power-badge" style="background:${cols[i%4]}">${['⚡','🔥','💫','🌟'][i%4]}</div>${imgHTML}<div class="power-name">${esc(pw.name)}</div><div class="power-desc">${esc(pw.power||'')}</div>`;pL.appendChild(el);});
+  document.getElementById('bPowers').style.display=powers.filter(pw=>pw.name).length?'block':'none';
+  const spT=document.getElementById('spoilerText');spT.textContent=p.spoiler||'';
+  document.getElementById('bSpoiler').style.display=p.spoiler?'block':'none';
+  document.getElementById('spoilerWrap').classList.add('spoiler-blur');
+  const recs=p.recs||[];const rL=document.getElementById('recsList');rL.innerHTML='';
+  const recBgs=['linear-gradient(135deg,#FCEBD5,#F5D5B8)','linear-gradient(135deg,#FDE8D8,#F5C4A0)','linear-gradient(135deg,#F5E8D5,#EDD4B8)'];
+  recs.forEach((r,i)=>{if(!r.title)return;const el=document.createElement('div');el.className='rec-card';
+    const coverHTML=r.img?`<div class="rec-cover" style="padding:0;overflow:hidden;"><img src="${r.img}" alt="${esc(r.title)}" style="width:100%;height:100%;object-fit:cover;"></div>`:`<div class="rec-cover" style="background:${recBgs[i%3]}">📚</div>`;
+    el.innerHTML=`${coverHTML}<div class="rec-info"><div class="rec-title">${esc(r.title)}</div><div class="rec-author">${esc(r.author||'')}</div></div>`;rL.appendChild(el);});
+  document.getElementById('bRecs').style.display=recs.filter(r=>r.title).length?'block':'none';
+  const coming=p.coming||[];const cL=document.getElementById('comingList');cL.innerHTML='';
+  coming.forEach((c,i)=>{if(!c.title)return;const sMap={next:['cs-next','Reading Next 🔥'],soon:['cs-soon','Coming Soon'],maybe:['cs-maybe','Maybe']};const[sc,sl]=sMap[c.status]||sMap.soon;const el=document.createElement('div');el.className='coming-chip';el.innerHTML=`<div class="coming-num">0${i+1}</div><div class="coming-info"><div class="coming-name">${esc(c.title)}</div><div class="coming-auth">${esc(c.author||'')}</div></div><span class="coming-status ${sc}">${sl}</span>`;cL.appendChild(el);});
+  document.getElementById('bComing').style.display=coming.filter(c=>c.title).length?'block':'none';
+  document.getElementById('bSuggest').style.display=role==='reader'?'block':'none';
+  renderComments(idx);
+}
+
+function revealSpoiler(){document.getElementById('spoilerWrap').classList.remove('spoiler-blur');}
+
+function renderComments(idx){
+  DB=getStore();const cms=(DB.posts[idx]&&DB.posts[idx].comments)||[];
+  const list=document.getElementById('cmList');list.innerHTML='';
+  document.getElementById('noCmts').style.display=cms.length?'none':'block';
+  cms.slice().reverse().forEach(c=>{const el=document.createElement('div');el.className='cm-item';const av=c.emoji||(c.name?c.name[0].toUpperCase():'?');el.innerHTML=`<div class="cm-av">${av}</div><div class="cm-bubble"><div class="cm-namerow"><span class="cm-name">${esc(c.name||'Anonymous')}</span><span class="cm-date">${c.date||''}</span></div><div class="cm-text">${esc(c.text)}</div></div>`;list.appendChild(el);});
+}
+function submitComment(){
+  const text=document.getElementById('cmText').value.trim();if(!text)return;
+  DB=getStore();if(!DB.posts[curIdx].comments)DB.posts[curIdx].comments=[];
+  DB.posts[curIdx].comments.push({name:document.getElementById('cmName').value.trim(),emoji:document.getElementById('cmEmoji').value.trim(),text,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
+  setStore(DB);document.getElementById('cmName').value='';document.getElementById('cmEmoji').value='';document.getElementById('cmText').value='';renderComments(curIdx);toast('comment posted 🎉');
+}
+function submitSug(){
+  const book=document.getElementById('sugBook').value.trim();if(!book){toast('add a book title first!');return;}
+  DB=getStore();if(!DB.suggestions)DB.suggestions=[];
+  DB.suggestions.push({name:document.getElementById('sugName').value.trim(),book,note:document.getElementById('sugNote').value.trim(),date:new Date().toLocaleDateString()});
+  setStore(DB);['sugName','sugBook','sugNote'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sugOk').style.display='block';setTimeout(()=>document.getElementById('sugOk').style.display='none',4000);
+}
+function submitSugRev(){
+  const book=document.getElementById('sugBookRev').value.trim();if(!book){toast('add a book title!');return;}
+  DB=getStore();if(!DB.suggestions)DB.suggestions=[];
+  DB.suggestions.push({name:document.getElementById('sugNameRev').value.trim(),book,note:document.getElementById('sugNoteRev').value.trim(),date:new Date().toLocaleDateString()});
+  setStore(DB);['sugNameRev','sugBookRev','sugNoteRev'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sugOkRev').style.display='block';setTimeout(()=>document.getElementById('sugOkRev').style.display='none',4000);toast('suggestion sent! 📚');
+}
+function deleteSug(idx){DB=getStore();DB.suggestions.splice(idx,1);setStore(DB);renderHome();}
+
+const FLD=['fTitle','fAuthor','fGenre','fAge','fSummary','fThoughts','fVerdict','fSpoiler','pc1n','pc1p','pc2n','pc2p','pc3n','pc3p','pc4n','pc4p','lk1','lk2','lk3','dl1','dl2','dl3','rec1t','rec1a','rec1w','rec2t','rec2a','rec2w','rec3t','rec3a','rec3w','cm1t','cm1a','cm2t','cm2a','cm3t','cm3a'];
+function openEditor(idx){
+  edRating=5;edCover=null;
+  document.getElementById('editIdx').value=idx===null?'':idx;
+  document.getElementById('edHeading').textContent=idx===null?'New Review ✏️':'Edit Review ✏️';
+  FLD.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['cm1s','cm2s','cm3s'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='soon';});
+  document.getElementById('upPreview').style.display='none';document.getElementById('upHint').style.display='block';setStar(5);
+  // reset char/rec images
+  for(let n=1;n<=4;n++){_charImgs[n]=null;const h=document.getElementById('pc'+n+'hint'),p=document.getElementById('pc'+n+'prev');if(h)h.style.display='';if(p){p.style.display='none';p.src='';} const fi=document.getElementById('pc'+n+'img');if(fi)fi.value='';}
+  for(let n=1;n<=3;n++){_recImgs[n]=null;const h=document.getElementById('ri'+n+'hint'),p=document.getElementById('ri'+n+'prev');if(h)h.style.display='';if(p){p.style.display='none';p.src='';} const fi=document.getElementById('ri'+n+'img');if(fi)fi.value='';}
+  if(idx!==null){
+    DB=getStore();const p=DB.posts[idx];
+    const m={fTitle:'title',fAuthor:'author',fGenre:'genre',fAge:'ageRange',fSummary:'summary',fThoughts:'thoughts',fVerdict:'verdict',fSpoiler:'spoiler',lk1:'lk1',lk2:'lk2',lk3:'lk3',dl1:'dl1',dl2:'dl2',dl3:'dl3'};
+    Object.entries(m).forEach(([id,key])=>{const el=document.getElementById(id);if(el&&p[key])el.value=p[key];});
+    edRating=p.rating||5;edCover=p.cover||null;setStar(edRating);
+    if(p.cover){document.getElementById('upPreview').src=p.cover;document.getElementById('upPreview').style.display='block';document.getElementById('upHint').style.display='none';}
+    // restore char images
+    (p.powers||[]).forEach((pw,i)=>{const n=i+1;if(pw.img){_charImgs[n]=pw.img;const h=document.getElementById('pc'+n+'hint'),pr=document.getElementById('pc'+n+'prev');if(h)h.style.display='none';if(pr){pr.src=pw.img;pr.style.display='block';}}});
+    // restore rec images
+    (p.recs||[]).forEach((r,i)=>{const n=i+1;if(r.img){_recImgs[n]=r.img;const h=document.getElementById('ri'+n+'hint'),pr=document.getElementById('ri'+n+'prev');if(h)h.style.display='none';if(pr){pr.src=r.img;pr.style.display='block';}}});
+    (p.powers||[]).forEach((pw,i)=>{const n=i+1;const en=document.getElementById('pc'+n+'n'),ep=document.getElementById('pc'+n+'p');if(en)en.value=pw.name||'';if(ep)ep.value=pw.power||'';});
+    (p.recs||[]).forEach((r,i)=>{const n=i+1;['t','a','w'].forEach(k=>{const el=document.getElementById('rec'+n+k);if(el)el.value=r[{t:'title',a:'author',w:'why'}[k]]||'';});});
+    (p.coming||[]).forEach((c,i)=>{const n=i+1;const et=document.getElementById('cm'+n+'t'),ea=document.getElementById('cm'+n+'a'),es=document.getElementById('cm'+n+'s');if(et)et.value=c.title||'';if(ea)ea.value=c.author||'';if(es)es.value=c.status||'soon';});
   }
-
-  // ── Render stars string ─────────────────────────────────
-  function starsHtml(n) {
-    return '★'.repeat(n) + '☆'.repeat(5 - n);
-  }
-
-  // ── Filters ─────────────────────────────────────────────
-  function buildFilters() {
-    const bar = document.getElementById('filter-bar');
-    const genres = [...new Set(reviews.map(r => r.genre).filter(Boolean))].sort();
-    bar.innerHTML = `<button class="${activeFilter==='all'?'active':''}" data-genre="all" onclick="setFilter('all',this)">All</button>`;
-    genres.forEach(g => {
-      const active = activeFilter === g ? 'active' : '';
-      bar.innerHTML += `<button class="${active}" data-genre="${g}" onclick="setFilter('${g}',this)">${g}</button>`;
-    });
-  }
-  function setFilter(genre, btn) {
-    activeFilter = genre;
-    document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderReviews();
-  }
-
-  // ── Render Reviews ──────────────────────────────────────
-  function renderReviews() {
-    buildFilters();
-    const list = document.getElementById('reviews-list');
-    const filtered = activeFilter === 'all'
-      ? reviews
-      : reviews.filter(r => r.genre === activeFilter);
-
-    if (filtered.length === 0) {
-      list.innerHTML = `<div class="empty">
-        <div class="book-icon">📖</div>
-        <p>${reviews.length === 0
-          ? 'No reviews yet — write your first one!'
-          : 'No reviews in this genre yet.'}</p>
-      </div>`;
-      return;
-    }
-
-    list.innerHTML = filtered.slice().reverse().map(r => `
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2>${escHtml(r.title)}</h2>
-            <div class="author-line">by ${escHtml(r.author)}</div>
-          </div>
-          <button class="delete-btn" title="Delete review" onclick="deleteReview('${r.id}')">✕</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.9rem;">
-          <span class="stars">${starsHtml(r.rating)}</span>
-          ${r.genre ? `<span class="genre-badge">${escHtml(r.genre)}</span>` : ''}
-        </div>
-        <div class="review-text">${escHtml(r.text).replace(/\n/g,'<br>')}</div>
-        <div class="meta">
-          <span>${r.date}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ── Submit Review ───────────────────────────────────────
-  function submitReview() {
-    const title  = document.getElementById('book-title').value.trim();
-    const author = document.getElementById('book-author').value.trim();
-    const text   = document.getElementById('review-text').value.trim();
-    const genre  = document.getElementById('book-genre').value;
-
-    if (!title || !author || !text || selectedRating === 0) {
-      alert('Please fill in the title, author, review text, and a star rating.');
-      return;
-    }
-
-    reviews.push({
-      id:     Math.random().toString(36).slice(2),
-      title, author, text, genre,
-      rating: selectedRating,
-      date:   new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
-    });
-    save();
-
-    // reset form
-    document.getElementById('book-title').value  = '';
-    document.getElementById('book-author').value = '';
-    document.getElementById('review-text').value = '';
-    document.getElementById('book-genre').value  = '';
-    selectedRating = 0;
-    highlightStars(0);
-
-    const msg = document.getElementById('success-msg');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 3000);
-  }
-
-  // ── Delete Review ───────────────────────────────────────
-  function deleteReview(id) {
-    if (!confirm('Delete this review?')) return;
-    reviews = reviews.filter(r => r.id !== id);
-    save();
-    renderReviews();
-  }
-
-  // ── About ───────────────────────────────────────────────
-  function loadAbout() {
-    if (about.name)     document.getElementById('about-name').textContent = about.name;
-    if (about.bio)      document.getElementById('about-bio').textContent  = about.bio;
-    if (about.subtitle) document.getElementById('header-subtitle').textContent = about.subtitle;
-  }
-  function toggleAboutEdit() {
-    const form = document.getElementById('about-edit-form');
-    const showing = form.style.display === 'block';
-    if (!showing) {
-      document.getElementById('edit-name').value     = document.getElementById('about-name').textContent;
-      document.getElementById('edit-bio').value      = document.getElementById('about-bio').textContent;
-      document.getElementById('edit-subtitle').value = document.getElementById('header-subtitle').textContent;
-    }
-    form.style.display = showing ? 'none' : 'block';
-  }
-  function saveAbout() {
-    about.name     = document.getElementById('edit-name').value.trim();
-    about.bio      = document.getElementById('edit-bio').value.trim();
-    about.subtitle = document.getElementById('edit-subtitle').value.trim();
-    localStorage.setItem('btpAbout', JSON.stringify(about));
-    loadAbout();
-    document.getElementById('about-edit-form').style.display = 'none';
-  }
-
-  // ── Utility ─────────────────────────────────────────────
-  function escHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // ── Init ────────────────────────────────────────────────
-  loadAbout();
-  renderReviews();
+  document.getElementById('edOverlay').classList.add('open');
+}
+function closeEditor(){document.getElementById('edOverlay').classList.remove('open');}
+function pickStar(n){edRating=n;setStar(n);}
+function setStar(n){document.querySelectorAll('.spick').forEach((b,i)=>b.classList.toggle('on',i<n));}
+function loadCover(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{edCover=e.target.result;document.getElementById('upPreview').src=e.target.result;document.getElementById('upPreview').style.display='block';document.getElementById('upHint').style.display='none';};r.readAsDataURL(file);}
+function savePost(publish){
+  const title=document.getElementById('fTitle').value.trim(),author=document.getElementById('fAuthor').value.trim();
+  if(!title||!author){toast('need a book title + author!');return;}
+  DB=getStore();const eIdx=document.getElementById('editIdx').value;
+  const powers=[1,2,3,4].map(n=>({name:(document.getElementById('pc'+n+'n')||{}).value?.trim()||'',power:(document.getElementById('pc'+n+'p')||{}).value?.trim()||'',img:_charImgs[n]||null})).filter(pw=>pw.name);
+  const recs=[1,2,3].map(n=>({title:(document.getElementById('rec'+n+'t')||{}).value?.trim()||'',author:(document.getElementById('rec'+n+'a')||{}).value?.trim()||'',why:(document.getElementById('rec'+n+'w')||{}).value?.trim()||'',img:_recImgs[n]||null})).filter(r=>r.title);
+  const coming=[1,2,3].map(n=>({title:(document.getElementById('cm'+n+'t')||{}).value?.trim()||'',author:(document.getElementById('cm'+n+'a')||{}).value?.trim()||'',status:(document.getElementById('cm'+n+'s')||{}).value||'soon'})).filter(c=>c.title);
+  const post={title,author,genre:document.getElementById('fGenre').value.trim(),ageRange:document.getElementById('fAge').value.trim(),rating:edRating,cover:edCover,summary:document.getElementById('fSummary').value.trim(),thoughts:document.getElementById('fThoughts').value.trim(),verdict:document.getElementById('fVerdict').value.trim(),spoiler:document.getElementById('fSpoiler').value.trim(),lk1:document.getElementById('lk1').value.trim(),lk2:document.getElementById('lk2').value.trim(),lk3:document.getElementById('lk3').value.trim(),dl1:document.getElementById('dl1').value.trim(),dl2:document.getElementById('dl2').value.trim(),dl3:document.getElementById('dl3').value.trim(),powers,recs,coming,published:publish,date:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),comments:[]};
+  if(eIdx!==''){post.comments=DB.posts[parseInt(eIdx)].comments||[];DB.posts[parseInt(eIdx)]=post;}else DB.posts.push(post);
+  setStore(DB);closeEditor();toast(publish?'🚀 published!':'📝 draft saved!');
+  if(publish&&curIdx!==null&&eIdx!=='')renderReview(parseInt(eIdx));else showHome();
+}
+function deletePost(idx){if(!confirm('delete this review?'))return;DB=getStore();DB.posts.splice(idx,1);setStore(DB);toast('deleted');if(document.getElementById('pgReview').classList.contains('on'))showHome();else renderHome();}
+function openSettings(){DB=getStore();document.getElementById('sBlogName').value=DB.blogName||'';document.getElementById('sTagline').value=DB.tagline||'';document.getElementById('sReaderPass').value='';document.getElementById('sEditorPass').value='';document.getElementById('stOverlay').classList.add('open');}
+function closeSettings(){document.getElementById('stOverlay').classList.remove('open');}
+function saveSettings(){DB=getStore();const n=document.getElementById('sBlogName').value.trim(),t=document.getElementById('sTagline').value.trim(),rp=document.getElementById('sReaderPass').value.trim(),ep=document.getElementById('sEditorPass').value.trim();if(n)DB.blogName=n;if(t)DB.tagline=t;if(rp)DB.readerPass=rp;if(ep)DB.editorPass=ep;setStore(DB);closeSettings();toast('saved ✅');renderHome();}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+document.getElementById('gateInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPass();});
+document.getElementById('edOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('edOverlay'))closeEditor();});
+document.getElementById('stOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('stOverlay'))closeSettings();});
 </script>
 </body>
 </html>
