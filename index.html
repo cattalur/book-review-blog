@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Between the Pages</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --cream:#F0EDFF;--dark:#1A1A2E;--white:#FFFFFF;
@@ -286,20 +286,53 @@ footer{background:rgba(26,26,46,.85);backdrop-filter:blur(10px);color:rgba(248,2
 footer strong{color:rgba(248,247,255,.6);}
 
 /* ── ABOUT ME ── */
+/* ── SCRAPBOOK ABOUT ME ── */
 .about-me{margin:12px 0 16px;}
-.about-inner{background:var(--gl);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:var(--glb);border-radius:24px;padding:20px;display:flex;gap:16px;align-items:flex-start;box-shadow:var(--glow);}
-.about-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#F472B6);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;box-shadow:0 4px 12px rgba(139,92,246,.2);}
-.about-content{flex:1;min-width:0;}
-.about-label{font-size:.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;}
-.about-name{font-size:1.2rem;font-weight:900;color:var(--ink);margin-bottom:4px;}
-.about-bio{font-size:.82rem;line-height:1.55;color:var(--ink2);margin-bottom:10px;}
-.about-stats{display:flex;gap:12px;margin-bottom:8px;}
-.about-stat{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.4);border-radius:12px;padding:8px 12px;min-width:64px;}
-.about-stat-emoji{font-size:1rem;}
-.about-stat-val{font-size:.9rem;font-weight:900;color:var(--ink);}
-.about-stat-lbl{font-size:.58rem;font-weight:700;color:var(--ink3);}
-.about-faves{display:flex;gap:4px;flex-wrap:wrap;}
-.about-fave-chip{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(244,114,182,.12));border:1px solid rgba(139,92,246,.15);border-radius:100px;padding:3px 10px;font-size:.68rem;font-weight:700;color:var(--purple);}
+.scrapbook{position:relative;background:linear-gradient(135deg,#FFF8F0 0%,#FFF0E6 40%,#F8F0FF 100%);border:none;border-radius:4px;padding:28px 22px 22px;box-shadow:0 2px 16px rgba(139,92,246,.08),0 0 0 1px rgba(200,180,160,.15);overflow:hidden;}
+.scrapbook::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='.5' fill='%23e0d5c8' opacity='.3'/%3E%3C/svg%3E");pointer-events:none;}
+.sb-tape{position:absolute;width:90px;height:22px;background:rgba(139,92,246,.18);border:1px solid rgba(139,92,246,.08);z-index:2;opacity:.85;}
+.sb-tape-tl{top:-4px;left:30px;transform:rotate(-8deg);}
+.sb-tape-tr{top:-4px;right:30px;transform:rotate(5deg);background:rgba(244,114,182,.18);border-color:rgba(244,114,182,.08);}
+.sb-tape-bl{bottom:-4px;left:50px;transform:rotate(3deg);background:rgba(251,191,36,.22);border-color:rgba(251,191,36,.1);}
+.sb-header{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;position:relative;z-index:1;}
+.sb-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#F472B6);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;box-shadow:0 4px 16px rgba(139,92,246,.25);border:3px solid white;transform:rotate(-3deg);overflow:hidden;}
+.sb-avatar img{width:100%;height:100%;object-fit:cover;}
+.sb-info{flex:1;min-width:0;}
+.sb-label{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--purple);margin-bottom:2px;transform:rotate(-1deg);}
+.sb-name{font-family:'Caveat',cursive;font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:4px;}
+.sb-bio{font-size:.82rem;line-height:1.6;color:var(--ink2);margin-bottom:10px;background:rgba(255,255,255,.5);padding:8px 12px;border-radius:2px;border-left:3px solid var(--purple);transform:rotate(.3deg);}
+.sb-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;position:relative;z-index:1;}
+.sb-stat{display:flex;flex-direction:column;align-items:center;background:white;border:none;border-radius:2px;padding:8px 14px;min-width:68px;box-shadow:0 2px 8px rgba(0,0,0,.06);transform:rotate(-1deg);transition:transform .2s;}
+.sb-stat:nth-child(2){transform:rotate(1.5deg);}
+.sb-stat:nth-child(3){transform:rotate(-0.5deg);}
+.sb-stat:hover{transform:rotate(0deg) scale(1.05);}
+.sb-stat-emoji{font-size:1.1rem;}
+.sb-stat-val{font-family:'Caveat',cursive;font-size:1.2rem;font-weight:700;color:var(--ink);}
+.sb-stat-lbl{font-size:.56rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;}
+.sb-faves{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;position:relative;z-index:1;}
+.sb-fave-chip{background:white;border:1.5px dashed rgba(139,92,246,.3);border-radius:2px;padding:4px 12px;font-family:'Caveat',cursive;font-size:.95rem;font-weight:600;color:var(--purple);transform:rotate(-1deg);transition:transform .15s;}
+.sb-fave-chip:nth-child(even){transform:rotate(1deg);}
+.sb-fave-chip:hover{transform:rotate(0deg) scale(1.05);}
+/* ── CHARACTER CARDS (POLAROIDS) ── */
+.sb-chars-title{font-family:'Caveat',cursive;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:10px;position:relative;z-index:1;}
+.sb-chars-title::after{content:'';display:inline-block;width:40px;height:2px;background:var(--purple);margin-left:8px;vertical-align:middle;opacity:.4;}
+.sb-chars{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:1;}
+.sb-polaroid{background:white;padding:8px 8px 14px;border-radius:2px;box-shadow:0 3px 12px rgba(0,0,0,.1);width:130px;transition:transform .2s,box-shadow .2s;cursor:default;}
+.sb-polaroid:nth-child(1){transform:rotate(-3deg);}
+.sb-polaroid:nth-child(2){transform:rotate(2deg);}
+.sb-polaroid:nth-child(3){transform:rotate(-1.5deg);}
+.sb-polaroid:nth-child(4){transform:rotate(2.5deg);}
+.sb-polaroid:hover{transform:rotate(0deg) scale(1.06);box-shadow:0 6px 20px rgba(0,0,0,.14);z-index:3;}
+.sb-pol-img{width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,#E8E0F0,#F0E8F8);border-radius:1px;overflow:hidden;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(139,92,246,.3);}
+.sb-pol-img img{width:100%;height:100%;object-fit:cover;}
+.sb-pol-name{font-family:'Caveat',cursive;font-size:1rem;font-weight:700;color:var(--ink);text-align:center;line-height:1.1;margin-bottom:2px;}
+.sb-pol-quote{font-family:'Caveat',cursive;font-size:.82rem;color:var(--ink2);text-align:center;line-height:1.2;font-style:italic;}
+.sb-pol-book{font-size:.58rem;font-weight:700;color:var(--purple);text-align:center;margin-top:3px;text-transform:uppercase;letter-spacing:.5px;}
+.sb-doodle{position:absolute;font-size:1.4rem;opacity:.2;pointer-events:none;z-index:0;}
+.sb-doodle:nth-child(1){top:12px;right:14px;transform:rotate(15deg);}
+.sb-doodle:nth-child(2){bottom:16px;left:14px;transform:rotate(-10deg);}
+.sb-doodle:nth-child(3){bottom:40px;right:40px;transform:rotate(20deg);}
+@media(max-width:560px){.sb-chars{gap:10px;}.sb-polaroid{width:110px;}.sb-header{flex-direction:column;align-items:center;text-align:center;}.sb-bio{border-left:none;border-top:3px solid var(--purple);}}
 
 /* ── RESPONSIVE ── */
 @media(max-width:780px){
@@ -321,7 +354,12 @@ footer strong{color:rgba(248,247,255,.6);}
   .ld-col:first-child{border-right:none;border-bottom:1px solid rgba(255,255,255,.3);}
   .cm-row2{grid-template-columns:1fr;}
 }
+#gateLoading{text-align:center;color:rgba(255,255,255,.5);font-size:.82rem;padding:16px 0;}
+#gateLoading .spinner{display:inline-block;width:24px;height:24px;border:3px solid rgba(139,92,246,.2);border-top-color:#8B5CF6;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:8px;}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -331,7 +369,8 @@ footer strong{color:rgba(248,247,255,.6);}
   <div class="gate-title" id="gateTitle"><em>Between</em> the Pages</div>
   <div class="gate-sub">Private · enter the password to get in</div>
   <div class="gate-box">
-    <div id="gateLogin">
+    <div id="gateLoading"><div class="spinner"></div><br>Loading your blog...</div>
+    <div id="gateLogin" style="display:none">
       <label class="gate-label">Password</label>
       <input class="gate-input" type="password" id="gateInput" placeholder="Enter password…" autofocus>
       <button class="gate-btn" onclick="checkPass()">Let me in →</button>
@@ -407,20 +446,30 @@ footer strong{color:rgba(248,247,255,.6);}
   <!-- ABOUT ME -->
   <div class="wrap">
     <div class="about-me" id="aboutSection">
-      <div class="about-inner">
-        <div class="about-avatar" id="aboutAvatar">📚</div>
-        <div class="about-content">
-          <div class="about-label">About Me ✨</div>
-          <div class="about-name" id="aboutName">Hi, I'm a Book Lover!</div>
-          <div class="about-bio" id="aboutBio">I'm a young reader who loves getting lost in stories. From fantasy worlds to mystery adventures, I review the books I read and share my honest thoughts. Welcome to my corner of the internet! 💜</div>
-          <div class="about-stats">
-            <div class="about-stat"><span class="about-stat-emoji">📖</span><span class="about-stat-val" id="aboutBookCount">0</span><span class="about-stat-lbl">reviewed</span></div>
-            <div class="about-stat"><span class="about-stat-emoji">💜</span><span class="about-stat-val" id="aboutFavGenre">—</span><span class="about-stat-lbl">fav genre</span></div>
-            <div class="about-stat"><span class="about-stat-emoji">🎂</span><span class="about-stat-val" id="aboutAge">—</span><span class="about-stat-lbl">age</span></div>
+      <div class="scrapbook">
+        <div class="sb-tape sb-tape-tl"></div>
+        <div class="sb-tape sb-tape-tr"></div>
+        <div class="sb-tape sb-tape-bl"></div>
+        <div class="sb-doodle">✨</div>
+        <div class="sb-doodle">📖</div>
+        <div class="sb-doodle">💜</div>
+        <div class="sb-header">
+          <div class="sb-avatar" id="aboutAvatar">📚</div>
+          <div class="sb-info">
+            <div class="sb-label">About Me ✨</div>
+            <div class="sb-name" id="aboutName">Hi, I'm a Book Lover!</div>
+            <div class="sb-bio" id="aboutBio">I'm a young reader who loves getting lost in stories. Welcome to my blog! 💜</div>
           </div>
-          <div class="about-faves" id="aboutFaves"></div>
-          <div class="ectrls"><button class="ecbtn" onclick="openAboutEditor()">Edit About Me</button></div>
         </div>
+        <div class="sb-stats">
+          <div class="sb-stat"><span class="sb-stat-emoji">📖</span><span class="sb-stat-val" id="aboutBookCount">0</span><span class="sb-stat-lbl">reviewed</span></div>
+          <div class="sb-stat"><span class="sb-stat-emoji">💜</span><span class="sb-stat-val" id="aboutFavGenre">—</span><span class="sb-stat-lbl">fav genre</span></div>
+          <div class="sb-stat"><span class="sb-stat-emoji">🎂</span><span class="sb-stat-val" id="aboutAge">—</span><span class="sb-stat-lbl">age</span></div>
+        </div>
+        <div class="sb-faves" id="aboutFaves"></div>
+        <div class="sb-chars-title" id="aboutCharsTitle" style="display:none">My Favorite Characters</div>
+        <div class="sb-chars" id="aboutChars"></div>
+        <div class="ectrls"><button class="ecbtn" onclick="openAboutEditor()">Edit About Me</button></div>
       </div>
     </div>
   </div>
@@ -756,14 +805,47 @@ footer strong{color:rgba(248,247,255,.6);}
 
 <!-- ABOUT ME OVERLAY -->
 <div class="overlay" id="aboutOverlay">
-  <div class="panel" style="max-width:460px">
+  <div class="panel" style="max-width:520px">
     <div class="panel-title">About Me ✨</div>
     <div class="fgroup"><label class="flabel">Your Name</label><input class="finput" type="text" id="aName" placeholder="e.g. Sarah"></div>
-    <div class="fgroup"><label class="flabel">Avatar Emoji</label><input class="finput" type="text" id="aEmoji" placeholder="e.g. 📚 or 🦋 or 🌸"></div>
+    <div class="fgroup"><label class="flabel">Avatar Emoji (used if no photo)</label><input class="finput" type="text" id="aEmoji" placeholder="e.g. 📚 or 🦋 or 🌸"></div>
+    <div class="fgroup"><label class="flabel">Profile Photo (replaces emoji)</label>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="file" accept="image/*" onchange="loadAvatarImg(this)" style="font-size:.72rem;max-width:200px;" id="aPhotoFile">
+        <img id="aPhotoPrev" style="display:none;width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid var(--purple);">
+        <button type="button" onclick="clearAvatar()" id="aPhotoClear" style="display:none;font-size:.68rem;background:rgba(239,68,68,.1);color:#EF4444;border:none;border-radius:8px;padding:3px 8px;cursor:pointer;font-weight:700;">Remove</button>
+      </div>
+    </div>
     <div class="fgroup"><label class="flabel">Age</label><input class="finput" type="text" id="aAge" placeholder="e.g. 10"></div>
     <div class="fgroup"><label class="flabel">Favorite Genre</label><input class="finput" type="text" id="aGenre" placeholder="e.g. Fantasy"></div>
     <div class="fgroup"><label class="flabel">Bio — tell readers about yourself!</label><textarea class="fta fta-sm" id="aBio" placeholder="I love reading because..."></textarea></div>
     <div class="fgroup"><label class="flabel">Favorite Books (comma separated)</label><input class="finput" type="text" id="aFaves" placeholder="e.g. Harry Potter, Percy Jackson, Hunger Games"></div>
+    <div style="border-top:1px dashed rgba(139,92,246,.2);margin:14px 0 10px;"></div>
+    <div class="panel-title" style="font-size:1rem;">Favorite Characters (up to 4)</div>
+    <div style="font-size:.72rem;color:var(--ink3);margin-bottom:10px;">Add your favorite book characters with a picture and quote!</div>
+    <div id="charFields"></div>
+    <script>
+    (function(){
+      const wrap=document.getElementById('charFields');
+      for(let n=1;n<=4;n++){
+        wrap.innerHTML+=`
+        <div style="background:rgba(139,92,246,.04);border:1px dashed rgba(139,92,246,.15);border-radius:12px;padding:10px;margin-bottom:8px;">
+          <div style="font-weight:800;font-size:.72rem;color:var(--purple);margin-bottom:6px;">Character ${n}</div>
+          <div class="fgrid2" style="gap:6px;margin-bottom:6px;">
+            <div class="fgroup" style="margin:0"><input class="finput" type="text" id="ac${n}name" placeholder="Character name"></div>
+            <div class="fgroup" style="margin:0"><input class="finput" type="text" id="ac${n}book" placeholder="From which book?"></div>
+          </div>
+          <div class="fgroup" style="margin:0 0 6px"><input class="finput" type="text" id="ac${n}quote" placeholder="Favorite quote (e.g. &quot;After all this time? Always.&quot;)"></div>
+          <div class="fgroup" style="margin:0"><label class="flabel">Character Image</label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="file" accept="image/*" onchange="loadAboutCharImg(this,${n})" style="font-size:.72rem;max-width:200px;" id="ac${n}file">
+              <img id="ac${n}prev" style="display:none;width:40px;height:40px;object-fit:cover;border-radius:4px;border:1.5px solid var(--purple);">
+            </div>
+          </div>
+        </div>`;
+      }
+    })();
+    </script>
     <div class="panel-actions">
       <button class="btn-cancel2" onclick="closeAboutEditor()">Cancel</button>
       <button class="btn-pub" onclick="saveAbout()">Save ✨</button>
@@ -774,9 +856,65 @@ footer strong{color:rgba(248,247,255,.6);}
 <div id="toast"></div>
 
 <script>
-function getStore(){return JSON.parse(localStorage.getItem('_blogv6')||JSON.stringify({blogName:'Between the Pages',tagline:'Reviews for curious readers',readerPass:'bookvibes',editorPass:'editor123',posts:[],suggestions:[]}));}
-function setStore(s){localStorage.setItem('_blogv6',JSON.stringify(s));}
-let DB=getStore(),role=null,curIdx=null,edRating=5,edCover=null;
+// ── FIREBASE INIT ──
+firebase.initializeApp({
+  apiKey:"AIzaSyBzYgLKqzeOMsFZ1bOcIozt03k5rXD0Uzg",
+  authDomain:"book-review-blog-69c7a.firebaseapp.com",
+  projectId:"book-review-blog-69c7a",
+  storageBucket:"book-review-blog-69c7a.firebasestorage.app",
+  messagingSenderId:"476787664934",
+  appId:"1:476787664934:web:bb10329cbe055b6e3d1ee7"
+});
+const _fs=firebase.firestore();
+const _DEFAULT={blogName:'Between the Pages',tagline:'Reviews for curious readers',readerPass:'bookvibes',editorPass:'editor123',posts:[],suggestions:[]};
+let DB={..._DEFAULT},_postIds=[],role=null,curIdx=null,edRating=5,edCover=null;
+
+function getStore(){return DB;}
+
+// ── FIRESTORE HELPERS ──
+async function fbLoadAll(){
+  const snap=await _fs.collection('config').doc('main').get();
+  if(snap.exists){const d=snap.data();Object.assign(DB,d);if(!DB.posts)DB.posts=[];if(!DB.suggestions)DB.suggestions=[];}
+  const ps=await _fs.collection('posts').orderBy('_createdAt','asc').get();
+  DB.posts=[];_postIds=[];
+  ps.forEach(doc=>{const d=doc.data();delete d._createdAt;DB.posts.push(d);_postIds.push(doc.id);});
+}
+async function fbSaveConfig(){
+  const c={blogName:DB.blogName,tagline:DB.tagline,readerPass:DB.readerPass,editorPass:DB.editorPass,suggestions:DB.suggestions||[]};
+  if(DB.about)c.about=DB.about;
+  await _fs.collection('config').doc('main').set(c);
+}
+async function fbSavePostDoc(idx){
+  const post={...DB.posts[idx]};
+  if(_postIds[idx]){await _fs.collection('posts').doc(_postIds[idx]).set({...post,_createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}
+  else{const ref=await _fs.collection('posts').add({...post,_createdAt:firebase.firestore.FieldValue.serverTimestamp()});_postIds[idx]=ref.id;}
+}
+async function fbDeletePostDoc(idx){
+  const id=_postIds[idx];_postIds.splice(idx,1);
+  if(id)await _fs.collection('posts').doc(id).delete();
+}
+async function fbMigrate(){
+  const raw=localStorage.getItem('_blogv6');if(!raw)return false;
+  const old=JSON.parse(raw);const{posts,...config}=old;
+  Object.assign(DB,config);DB.posts=posts||[];
+  await fbSaveConfig();
+  for(let i=0;i<DB.posts.length;i++){
+    const ref=await _fs.collection('posts').add({...DB.posts[i],_createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    _postIds.push(ref.id);
+  }
+  localStorage.removeItem('_blogv6');
+  return true;
+}
+function compressImage(dataUrl,maxW){
+  return new Promise(resolve=>{
+    const img=new Image();img.onload=()=>{
+      let w=img.width,h=img.height;if(w>maxW){h=h*maxW/w;w=maxW;}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',0.7));
+    };img.src=dataUrl;
+  });
+}
 
 function starHTML(n){
   const cols=['','#F472B6','#F59E0B','#A78BFA','#FBBF24','#8B5CF6'];
@@ -793,7 +931,7 @@ function saveSetup(){
   const e=document.getElementById('setupEditor').value.trim();
   const err=document.getElementById('setupErr');
   if(!r||!e){err.style.display='block';setTimeout(()=>err.style.display='none',3000);return;}
-  const db=getStore();db.readerPass=r;db.editorPass=e;setStore(db);
+  DB.readerPass=r;DB.editorPass=e;fbSaveConfig().catch(e=>console.error(e));
   hideSetup();
   document.getElementById('gateInput').value='';
   toast('passwords saved! now log in ✅');
@@ -804,12 +942,13 @@ const _charImgs={};
 function loadCharImg(input,n){
   const file=input.files[0];if(!file)return;
   const r=new FileReader();
-  r.onload=e=>{
-    _charImgs[n]=e.target.result;
+  r.onload=async e=>{
+    const compressed=await compressImage(e.target.result,400);
+    _charImgs[n]=compressed;
     const hint=document.getElementById('pc'+n+'hint');
     const prev=document.getElementById('pc'+n+'prev');
     if(hint)hint.style.display='none';
-    if(prev){prev.src=e.target.result;prev.style.display='block';}
+    if(prev){prev.src=compressed;prev.style.display='block';}
   };
   r.readAsDataURL(file);
 }
@@ -819,12 +958,13 @@ const _recImgs={};
 function loadRecImg(input,n){
   const file=input.files[0];if(!file)return;
   const r=new FileReader();
-  r.onload=e=>{
-    _recImgs[n]=e.target.result;
+  r.onload=async e=>{
+    const compressed=await compressImage(e.target.result,400);
+    _recImgs[n]=compressed;
     const hint=document.getElementById('ri'+n+'hint');
     const prev=document.getElementById('ri'+n+'prev');
     if(hint)hint.style.display='none';
-    if(prev){prev.src=e.target.result;prev.style.display='block';}
+    if(prev){prev.src=compressed;prev.style.display='block';}
   };
   r.readAsDataURL(file);
 }
@@ -947,25 +1087,25 @@ function renderComments(idx){
 }
 function submitComment(){
   const text=document.getElementById('cmText').value.trim();if(!text)return;
-  DB=getStore();if(!DB.posts[curIdx].comments)DB.posts[curIdx].comments=[];
+  if(!DB.posts[curIdx].comments)DB.posts[curIdx].comments=[];
   DB.posts[curIdx].comments.push({name:document.getElementById('cmName').value.trim(),emoji:document.getElementById('cmEmoji').value.trim(),text,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})});
-  setStore(DB);document.getElementById('cmName').value='';document.getElementById('cmEmoji').value='';document.getElementById('cmText').value='';renderComments(curIdx);toast('comment posted 🎉');
+  fbSavePostDoc(curIdx).catch(e=>console.error(e));document.getElementById('cmName').value='';document.getElementById('cmEmoji').value='';document.getElementById('cmText').value='';renderComments(curIdx);toast('comment posted 🎉');
 }
 function submitSug(){
   const book=document.getElementById('sugBook').value.trim();if(!book){toast('add a book title first!');return;}
-  DB=getStore();if(!DB.suggestions)DB.suggestions=[];
+  if(!DB.suggestions)DB.suggestions=[];
   DB.suggestions.push({name:document.getElementById('sugName').value.trim(),book,note:document.getElementById('sugNote').value.trim(),date:new Date().toLocaleDateString()});
-  setStore(DB);['sugName','sugBook','sugNote'].forEach(id=>document.getElementById(id).value='');
+  fbSaveConfig().catch(e=>console.error(e));['sugName','sugBook','sugNote'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('sugOk').style.display='block';setTimeout(()=>document.getElementById('sugOk').style.display='none',4000);
 }
 function submitSugRev(){
   const book=document.getElementById('sugBookRev').value.trim();if(!book){toast('add a book title!');return;}
-  DB=getStore();if(!DB.suggestions)DB.suggestions=[];
+  if(!DB.suggestions)DB.suggestions=[];
   DB.suggestions.push({name:document.getElementById('sugNameRev').value.trim(),book,note:document.getElementById('sugNoteRev').value.trim(),date:new Date().toLocaleDateString()});
-  setStore(DB);['sugNameRev','sugBookRev','sugNoteRev'].forEach(id=>document.getElementById(id).value='');
+  fbSaveConfig().catch(e=>console.error(e));['sugNameRev','sugBookRev','sugNoteRev'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('sugOkRev').style.display='block';setTimeout(()=>document.getElementById('sugOkRev').style.display='none',4000);toast('suggestion sent! 📚');
 }
-function deleteSug(idx){DB=getStore();DB.suggestions.splice(idx,1);setStore(DB);renderHome();}
+function deleteSug(idx){DB.suggestions.splice(idx,1);fbSaveConfig().catch(e=>console.error(e));renderHome();}
 
 const FLD=['fTitle','fAuthor','fGenre','fAge','fSummary','fThoughts','fVerdict','fSpoiler','pc1n','pc1p','pc2n','pc2p','pc3n','pc3p','pc4n','pc4p','lk1','lk2','lk3','dl1','dl2','dl3','rec1t','rec1a','rec1w','rec2t','rec2a','rec2w','rec3t','rec3a','rec3w','cm1t','cm1a','cm2t','cm2a','cm3t','cm3a'];
 function openEditor(idx){
@@ -997,7 +1137,7 @@ function openEditor(idx){
 function closeEditor(){document.getElementById('edOverlay').classList.remove('open');}
 function pickStar(n){edRating=n;setStar(n);}
 function setStar(n){document.querySelectorAll('.spick').forEach((b,i)=>b.classList.toggle('on',i<n));}
-function loadCover(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=e=>{edCover=e.target.result;document.getElementById('upPreview').src=e.target.result;document.getElementById('upPreview').style.display='block';document.getElementById('upHint').style.display='none';};r.readAsDataURL(file);}
+function loadCover(input){const file=input.files[0];if(!file)return;const r=new FileReader();r.onload=async e=>{const compressed=await compressImage(e.target.result,600);edCover=compressed;document.getElementById('upPreview').src=compressed;document.getElementById('upPreview').style.display='block';document.getElementById('upHint').style.display='none';};r.readAsDataURL(file);}
 function savePost(publish){
   const title=document.getElementById('fTitle').value.trim(),author=document.getElementById('fAuthor').value.trim();
   if(!title||!author){toast('need a book title + author!');return;}
@@ -1006,27 +1146,72 @@ function savePost(publish){
   const recs=[1,2,3].map(n=>({title:(document.getElementById('rec'+n+'t')||{}).value?.trim()||'',author:(document.getElementById('rec'+n+'a')||{}).value?.trim()||'',why:(document.getElementById('rec'+n+'w')||{}).value?.trim()||'',img:_recImgs[n]||null})).filter(r=>r.title);
   const coming=[1,2,3].map(n=>({title:(document.getElementById('cm'+n+'t')||{}).value?.trim()||'',author:(document.getElementById('cm'+n+'a')||{}).value?.trim()||'',status:(document.getElementById('cm'+n+'s')||{}).value||'soon'})).filter(c=>c.title);
   const post={title,author,genre:document.getElementById('fGenre').value.trim(),ageRange:document.getElementById('fAge').value.trim(),rating:edRating,cover:edCover,summary:document.getElementById('fSummary').value.trim(),thoughts:document.getElementById('fThoughts').value.trim(),verdict:document.getElementById('fVerdict').value.trim(),spoiler:document.getElementById('fSpoiler').value.trim(),lk1:document.getElementById('lk1').value.trim(),lk2:document.getElementById('lk2').value.trim(),lk3:document.getElementById('lk3').value.trim(),dl1:document.getElementById('dl1').value.trim(),dl2:document.getElementById('dl2').value.trim(),dl3:document.getElementById('dl3').value.trim(),powers,recs,coming,published:publish,date:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),comments:[]};
-  if(eIdx!==''){post.comments=DB.posts[parseInt(eIdx)].comments||[];DB.posts[parseInt(eIdx)]=post;}else DB.posts.push(post);
-  setStore(DB);closeEditor();toast(publish?'🚀 published!':'📝 draft saved!');
+  if(eIdx!==''){const i=parseInt(eIdx);post.comments=DB.posts[i].comments||[];DB.posts[i]=post;fbSavePostDoc(i).catch(e=>console.error(e));}else{DB.posts.push(post);fbSavePostDoc(DB.posts.length-1).catch(e=>console.error(e));}
+  closeEditor();toast(publish?'🚀 published!':'📝 draft saved!');
   if(publish&&curIdx!==null&&eIdx!=='')renderReview(parseInt(eIdx));else showHome();
 }
-function deletePost(idx){if(!confirm('delete this review?'))return;DB=getStore();DB.posts.splice(idx,1);setStore(DB);toast('deleted');if(document.getElementById('pgReview').classList.contains('on'))showHome();else renderHome();}
+function deletePost(idx){if(!confirm('delete this review?'))return;fbDeletePostDoc(idx).catch(e=>console.error(e));DB.posts.splice(idx,1);toast('deleted');if(document.getElementById('pgReview').classList.contains('on'))showHome();else renderHome();}
 function openSettings(){DB=getStore();document.getElementById('sBlogName').value=DB.blogName||'';document.getElementById('sTagline').value=DB.tagline||'';document.getElementById('sReaderPass').value='';document.getElementById('sEditorPass').value='';document.getElementById('stOverlay').classList.add('open');}
 function closeSettings(){document.getElementById('stOverlay').classList.remove('open');}
-function saveSettings(){DB=getStore();const n=document.getElementById('sBlogName').value.trim(),t=document.getElementById('sTagline').value.trim(),rp=document.getElementById('sReaderPass').value.trim(),ep=document.getElementById('sEditorPass').value.trim();if(n)DB.blogName=n;if(t)DB.tagline=t;if(rp)DB.readerPass=rp;if(ep)DB.editorPass=ep;setStore(DB);closeSettings();toast('saved ✅');renderHome();}
+function saveSettings(){const n=document.getElementById('sBlogName').value.trim(),t=document.getElementById('sTagline').value.trim(),rp=document.getElementById('sReaderPass').value.trim(),ep=document.getElementById('sEditorPass').value.trim();if(n)DB.blogName=n;if(t)DB.tagline=t;if(rp)DB.readerPass=rp;if(ep)DB.editorPass=ep;fbSaveConfig().catch(e=>console.error(e));closeSettings();toast('saved ✅');renderHome();}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 // ── ABOUT ME ──
+let _avatarImg=null;
+function loadAvatarImg(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=async e=>{
+    const compressed=await compressImage(e.target.result,200);
+    _avatarImg=compressed;
+    const prev=document.getElementById('aPhotoPrev'),clr=document.getElementById('aPhotoClear');
+    if(prev){prev.src=compressed;prev.style.display='inline';}
+    if(clr)clr.style.display='inline';
+  };
+  r.readAsDataURL(file);
+}
+function clearAvatar(){
+  _avatarImg='';
+  document.getElementById('aPhotoPrev').style.display='none';
+  document.getElementById('aPhotoClear').style.display='none';
+  document.getElementById('aPhotoFile').value='';
+}
+const _aboutCharImgs={};
+function loadAboutCharImg(input,n){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=async e=>{
+    const compressed=await compressImage(e.target.result,300);
+    _aboutCharImgs[n]=compressed;
+    const prev=document.getElementById('ac'+n+'prev');
+    if(prev){prev.src=compressed;prev.style.display='inline';}
+  };
+  r.readAsDataURL(file);
+}
 function renderAbout(){
   DB=getStore();const a=DB.about||{};
   document.getElementById('aboutName').textContent=a.name?'Hi, I\'m '+a.name+'!':'Hi, I\'m a Book Lover!';
-  document.getElementById('aboutAvatar').textContent=a.emoji||'📚';
+  const avEl=document.getElementById('aboutAvatar');
+  if(a.photo){avEl.innerHTML=`<img src="${a.photo}" alt="me">`;}
+  else{avEl.textContent=a.emoji||'📚';}
   document.getElementById('aboutBio').textContent=a.bio||'I\'m a young reader who loves getting lost in stories. Welcome to my blog! 💜';
   document.getElementById('aboutAge').textContent=a.age||'—';
   document.getElementById('aboutFavGenre').textContent=a.genre||'—';
   const pub=DB.posts?DB.posts.filter(p=>p.published):[];
   document.getElementById('aboutBookCount').textContent=pub.length;
   const faves=document.getElementById('aboutFaves');faves.innerHTML='';
-  if(a.faves){a.faves.split(',').map(f=>f.trim()).filter(Boolean).forEach(f=>{const s=document.createElement('span');s.className='about-fave-chip';s.textContent='📖 '+f;faves.appendChild(s);});}
+  if(a.faves){a.faves.split(',').map(f=>f.trim()).filter(Boolean).forEach(f=>{const s=document.createElement('span');s.className='sb-fave-chip';s.textContent='📖 '+f;faves.appendChild(s);});}
+  // render character polaroids
+  const chars=a.characters||[];
+  const charsEl=document.getElementById('aboutChars');charsEl.innerHTML='';
+  const charsTitle=document.getElementById('aboutCharsTitle');
+  const hasChars=chars.filter(c=>c.name).length>0;
+  charsTitle.style.display=hasChars?'block':'none';
+  chars.forEach(c=>{
+    if(!c.name)return;
+    const el=document.createElement('div');el.className='sb-polaroid';
+    el.innerHTML=`<div class="sb-pol-img">${c.img?`<img src="${c.img}" alt="${esc(c.name)}">`:'📖'}</div><div class="sb-pol-name">${esc(c.name)}</div>${c.quote?`<div class="sb-pol-quote">"${esc(c.quote)}"</div>`:''}${c.book?`<div class="sb-pol-book">${esc(c.book)}</div>`:''}`;
+    charsEl.appendChild(el);
+  });
 }
 function openAboutEditor(){
   DB=getStore();const a=DB.about||{};
@@ -1036,15 +1221,54 @@ function openAboutEditor(){
   document.getElementById('aGenre').value=a.genre||'';
   document.getElementById('aBio').value=a.bio||'';
   document.getElementById('aFaves').value=a.faves||'';
+  // restore avatar photo
+  _avatarImg=null;
+  const prevEl=document.getElementById('aPhotoPrev'),clrEl=document.getElementById('aPhotoClear'),fileEl=document.getElementById('aPhotoFile');
+  if(fileEl)fileEl.value='';
+  if(a.photo){_avatarImg=a.photo;if(prevEl){prevEl.src=a.photo;prevEl.style.display='inline';}if(clrEl)clrEl.style.display='inline';}
+  else{if(prevEl)prevEl.style.display='none';if(clrEl)clrEl.style.display='none';}
+  // populate character fields
+  const chars=a.characters||[];
+  for(let n=1;n<=4;n++){
+    _aboutCharImgs[n]=null;
+    const c=chars[n-1]||{};
+    const nameEl=document.getElementById('ac'+n+'name'),bookEl=document.getElementById('ac'+n+'book'),quoteEl=document.getElementById('ac'+n+'quote'),prevEl=document.getElementById('ac'+n+'prev'),fileEl=document.getElementById('ac'+n+'file');
+    if(nameEl)nameEl.value=c.name||'';
+    if(bookEl)bookEl.value=c.book||'';
+    if(quoteEl)quoteEl.value=c.quote||'';
+    if(fileEl)fileEl.value='';
+    if(c.img){_aboutCharImgs[n]=c.img;if(prevEl){prevEl.src=c.img;prevEl.style.display='inline';}}
+    else if(prevEl){prevEl.style.display='none';}
+  }
   document.getElementById('aboutOverlay').classList.add('open');
 }
 function closeAboutEditor(){document.getElementById('aboutOverlay').classList.remove('open');}
 function saveAbout(){
-  DB=getStore();
-  DB.about={name:document.getElementById('aName').value.trim(),emoji:document.getElementById('aEmoji').value.trim(),age:document.getElementById('aAge').value.trim(),genre:document.getElementById('aGenre').value.trim(),bio:document.getElementById('aBio').value.trim(),faves:document.getElementById('aFaves').value.trim()};
-  setStore(DB);closeAboutEditor();toast('about me saved ✨');renderAbout();
+  const characters=[1,2,3,4].map(n=>({
+    name:(document.getElementById('ac'+n+'name')||{}).value?.trim()||'',
+    book:(document.getElementById('ac'+n+'book')||{}).value?.trim()||'',
+    quote:(document.getElementById('ac'+n+'quote')||{}).value?.trim()||'',
+    img:_aboutCharImgs[n]||null
+  })).filter(c=>c.name);
+  const photo=_avatarImg===''?null:(_avatarImg||(DB.about&&DB.about.photo)||null);
+  DB.about={name:document.getElementById('aName').value.trim(),emoji:document.getElementById('aEmoji').value.trim(),age:document.getElementById('aAge').value.trim(),genre:document.getElementById('aGenre').value.trim(),bio:document.getElementById('aBio').value.trim(),faves:document.getElementById('aFaves').value.trim(),photo,characters};
+  fbSaveConfig().catch(e=>console.error(e));closeAboutEditor();toast('about me saved ✨');renderAbout();
 }
 
+// ── FIREBASE INIT LOAD ──
+(async function(){
+  try{
+    const configSnap=await _fs.collection('config').doc('main').get();
+    if(!configSnap.exists&&localStorage.getItem('_blogv6')){
+      await fbMigrate();
+      toast('blog data migrated to cloud! ☁️');
+    } else {
+      await fbLoadAll();
+    }
+  }catch(e){console.error('Firebase load error:',e);toast('connection error — check internet');}
+  document.getElementById('gateLoading').style.display='none';
+  document.getElementById('gateLogin').style.display='block';
+})();
 document.getElementById('gateInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkPass();});
 document.getElementById('edOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('edOverlay'))closeEditor();});
 document.getElementById('stOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('stOverlay'))closeSettings();});

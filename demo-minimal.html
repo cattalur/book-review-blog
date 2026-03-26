@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo: Clean Minimal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;min-height:100vh;background:#FAFAFA;color:#1A1A1A;}
+.tag{position:fixed;top:12px;left:12px;background:#1A1A1A;color:#fff;font-size:.7rem;font-weight:600;padding:5px 14px;border-radius:100px;z-index:100;}
+
+header{padding:48px 24px 20px;max-width:500px;margin:0 auto;}
+header p.pre{font-size:.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#A0A0A0;margin-bottom:8px;}
+header h1{font-size:2rem;font-weight:700;color:#1A1A1A;letter-spacing:-.5px;}
+header p.sub{color:#888;font-size:.85rem;margin-top:4px;}
+.divider{width:40px;height:2px;background:#E0E0E0;margin:16px 0;}
+
+.wrap{max-width:500px;margin:0 auto;padding:0 24px 48px;}
+
+.card{background:#fff;border-radius:16px;padding:24px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .2s;}
+.card:hover{box-shadow:0 4px 12px rgba(0,0,0,.06);}
+.card-label{font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B0B0B0;margin-bottom:10px;}
+.card h2{font-size:1.15rem;font-weight:700;color:#1A1A1A;margin-bottom:4px;}
+.card .author{font-size:.8rem;color:#999;margin-bottom:8px;}
+.card p{font-size:.85rem;line-height:1.7;color:#555;}
+.stars{color:#1A1A1A;font-size:.9rem;letter-spacing:2px;margin-bottom:8px;}
+.tag-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.chip{font-size:.68rem;font-weight:500;color:#666;background:#F2F2F2;padding:4px 10px;border-radius:6px;}
+
+.stats{display:flex;gap:12px;margin-bottom:16px;}
+.stat{flex:1;background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat .num{font-size:1.5rem;font-weight:700;color:#1A1A1A;}
+.stat .lbl{font-size:.68rem;color:#AAA;margin-top:2px;}
+
+.link{display:inline-block;margin-top:12px;font-size:.82rem;font-weight:600;color:#1A1A1A;border-bottom:1.5px solid #1A1A1A;cursor:pointer;transition:opacity .15s;}
+.link:hover{opacity:.6;}
+</style>
+</head>
+<body>
+<div class="tag">B: Clean Minimal</div>
+<header>
+<p class="pre">Book Reviews</p>
+<h1>Between the Pages</h1>
+<p class="sub">Honest reviews from a young reader.</p>
+<div class="divider"></div>
+</header>
+<div class="wrap">
+<div class="stats">
+  <div class="stat"><div class="num">12</div><div class="lbl">Reviews</div></div>
+  <div class="stat"><div class="num">4.2</div><div class="lbl">Avg Rating</div></div>
+  <div class="stat"><div class="num">3</div><div class="lbl">Coming Up</div></div>
+</div>
+<div class="card">
+  <div class="card-label">Latest</div>
+  <h2>The Hunger Games</h2>
+  <div class="author">by Suzanne Collins</div>
+  <div class="stars">★★★★★</div>
+  <p>This book had me on the edge of my seat the entire time. Katniss is such a strong character and the world-building is incredible...</p>
+  <div class="tag-row"><span class="chip">dystopian</span><span class="chip">action</span><span class="chip">must-read</span></div>
+  <span class="link">Read full review →</span>
+</div>
+<div class="card">
+  <h2>Percy Jackson: The Lightning Thief</h2>
+  <div class="author">by Rick Riordan</div>
+  <div class="stars">★★★★☆</div>
+  <p>Greek mythology + middle school humor = the perfect combo. Percy is hilarious and relatable...</p>
+  <div class="tag-row"><span class="chip">fantasy</span><span class="chip">mythology</span></div>
+  <span class="link">Read full review →</span>
+</div>
+<div class="card">
+  <div class="card-label">Up Next</div>
+  <h2>A Wrinkle in Time</h2>
+  <div class="author">by Madeleine L'Engle</div>
+  <p style="color:#AAA;font-size:.82rem;margin-top:4px">Currently reading — review coming soon.</p>
+</div>
+</div>
+</body>
+</html>
