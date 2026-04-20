@@ -359,7 +359,7 @@ footer strong{color:rgba(248,247,255,.6);}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -860,48 +860,45 @@ footer strong{color:rgba(248,247,255,.6);}
 firebase.initializeApp({
   apiKey:"AIzaSyBzYgLKqzeOMsFZ1bOcIozt03k5rXD0Uzg",
   authDomain:"book-review-blog-69c7a.firebaseapp.com",
+  databaseURL:"https://book-review-blog-69c7a-default-rtdb.firebaseio.com",
   projectId:"book-review-blog-69c7a",
   storageBucket:"book-review-blog-69c7a.firebasestorage.app",
   messagingSenderId:"476787664934",
   appId:"1:476787664934:web:bb10329cbe055b6e3d1ee7"
 });
-const _fs=firebase.firestore();
+const _db=firebase.database();
 const _DEFAULT={blogName:'Between the Pages',tagline:'Reviews for curious readers',readerPass:'bookvibes',editorPass:'editor123',posts:[],suggestions:[]};
-let DB={..._DEFAULT},_postIds=[],role=null,curIdx=null,edRating=5,edCover=null;
+let DB={..._DEFAULT},role=null,curIdx=null,edRating=5,edCover=null;
 
 function getStore(){return DB;}
 
-// ── FIRESTORE HELPERS ──
+// ── REALTIME DATABASE HELPERS ──
 async function fbLoadAll(){
-  const snap=await _fs.collection('config').doc('main').get();
-  if(snap.exists){const d=snap.data();Object.assign(DB,d);if(!DB.posts)DB.posts=[];if(!DB.suggestions)DB.suggestions=[];}
-  const ps=await _fs.collection('posts').orderBy('_createdAt','asc').get();
-  DB.posts=[];_postIds=[];
-  ps.forEach(doc=>{const d=doc.data();delete d._createdAt;DB.posts.push(d);_postIds.push(doc.id);});
+  const snap=await _db.ref('config').once('value');
+  if(snap.exists()){const d=snap.val();Object.assign(DB,d);if(!DB.posts)DB.posts=[];if(!DB.suggestions)DB.suggestions=[];}
+  const ps=await _db.ref('posts').once('value');
+  if(ps.exists()){
+    const data=ps.val();
+    DB.posts=Array.isArray(data)?data.filter(Boolean):Object.values(data);
+  } else { DB.posts=[]; }
 }
 async function fbSaveConfig(){
   const c={blogName:DB.blogName,tagline:DB.tagline,readerPass:DB.readerPass,editorPass:DB.editorPass,suggestions:DB.suggestions||[]};
   if(DB.about)c.about=DB.about;
-  await _fs.collection('config').doc('main').set(c);
+  await _db.ref('config').set(c);
 }
 async function fbSavePostDoc(idx){
-  const post={...DB.posts[idx]};
-  if(_postIds[idx]){await _fs.collection('posts').doc(_postIds[idx]).set({...post,_createdAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});}
-  else{const ref=await _fs.collection('posts').add({...post,_createdAt:firebase.firestore.FieldValue.serverTimestamp()});_postIds[idx]=ref.id;}
+  await _db.ref('posts/'+idx).set(DB.posts[idx]);
 }
 async function fbDeletePostDoc(idx){
-  const id=_postIds[idx];_postIds.splice(idx,1);
-  if(id)await _fs.collection('posts').doc(id).delete();
+  await _db.ref('posts').set(DB.posts);
 }
 async function fbMigrate(){
   const raw=localStorage.getItem('_blogv6');if(!raw)return false;
   const old=JSON.parse(raw);const{posts,...config}=old;
   Object.assign(DB,config);DB.posts=posts||[];
   await fbSaveConfig();
-  for(let i=0;i<DB.posts.length;i++){
-    const ref=await _fs.collection('posts').add({...DB.posts[i],_createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-    _postIds.push(ref.id);
-  }
+  await _db.ref('posts').set(DB.posts);
   localStorage.removeItem('_blogv6');
   return true;
 }
@@ -1292,8 +1289,8 @@ function saveAbout(){
 // ── FIREBASE INIT LOAD ──
 (async function(){
   try{
-    const configSnap=await _fs.collection('config').doc('main').get();
-    if(!configSnap.exists&&localStorage.getItem('_blogv6')){
+    const configSnap=await _db.ref('config').once('value');
+    if(!configSnap.exists()&&localStorage.getItem('_blogv6')){
       await fbMigrate();
       toast('blog data migrated to cloud! ☁️');
     } else {
